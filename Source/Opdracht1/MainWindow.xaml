@@ -23,13 +23,15 @@
             <!-- BOARD -->
             <ModelUIElement3D x:Name="Board" >
                 <GeometryModel3D>
+                    <!--
                     <GeometryModel3D.Transform>
                         <RotateTransform3D>
                             <RotateTransform3D.Rotation>
-                                <AxisAngleRotation3D Axis="0,0,1" Angle="40" />
+                                <AxisAngleRotation3D Axis="0,0,1" Angle="0" />
                             </RotateTransform3D.Rotation>
                         </RotateTransform3D>
                     </GeometryModel3D.Transform>
+                    -->
                     <GeometryModel3D.Geometry>
                         <MeshGeometry3D x:Name="floorGeometry" 
                                         Positions="{Binding FloorPoints3D, ElementName=Window}" 

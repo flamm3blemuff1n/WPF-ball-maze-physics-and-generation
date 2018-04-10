@@ -52,7 +52,19 @@ namespace Opdracht1
             viewport.Children.Add(Cube(-49, 0, 29, 1, 2, 20));
             viewport.Children.Add(Cube(-40, 0, 10, 1, 2, 20));
             viewport.Children.Add(Cube(0, 0, 0, 1, 2, 20));
+
+            RotateTransform3D myRotateTransform3D = new RotateTransform3D();
+            AxisAngleRotation3D myAxisAngleRotation3d = new AxisAngleRotation3D();
+            myAxisAngleRotation3d.Axis = new Vector3D(1, 0, 0);
+            myAxisAngleRotation3d.Angle = 40;
+            myRotateTransform3D.Rotation = myAxisAngleRotation3d;
+
+            Transform3DGroup myTransform3DGroup = new Transform3DGroup();
+            myTransform3DGroup.Children.Add(myRotateTransform3D);
+
+            Board.Transform = myTransform3DGroup;
         }
+
 
         public Model3DGroup Triangle(Point3D p0, Point3D p1, Point3D p2)
         {
