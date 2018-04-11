@@ -25,46 +25,58 @@ namespace Opdracht1
         public MainWindow()
         {
             InitializeComponent();
-            viewport.Children.Add(Cube(-50, 0, -50, 100, 2, 1)); //left wall
-            viewport.Children.Add(Cube(49, 0, -50, 100, 2, 1)); //right wall
-            viewport.Children.Add(Cube(-49, 0, 49, 1, 2, 98)); //front wall
-            viewport.Children.Add(Cube(-49, 0, -50, 1, 2, 98)); //back wall
+            WallContainer.Children.Add(Cube(-50, 0, -50, 100, 2, 1)); //left wall
+            WallContainer.Children.Add(Cube(49, 0, -50, 100, 2, 1)); //right wall
+            WallContainer.Children.Add(Cube(-49, 0, 49, 1, 2, 98)); //front wall
+            WallContainer.Children.Add(Cube(-49, 0, -50, 1, 2, 98)); //back wall
 
-            viewport.Children.Add(Cube(-40, 0, -49, 30, 2, 1));
-            viewport.Children.Add(Cube(-39, 0, -20, 1, 2, 40));
-            viewport.Children.Add(Cube(15, 0, -40, 40, 2, 1));
-            viewport.Children.Add(Cube(-25, 0, -40, 1, 2, 40));
-            viewport.Children.Add(Cube(15, 0, 0, 1, 2, 25));
-            viewport.Children.Add(Cube(40, 0, -49, 30, 2, 1));
-            viewport.Children.Add(Cube(28, 0, -40, 30, 2, 1));
-            viewport.Children.Add(Cube(-25, 0, -39, 10, 2, 1));
-            viewport.Children.Add(Cube(0, 0, -30, 10, 2, 1));
-            viewport.Children.Add(Cube(-40, 0, -10, 1, 2, 41));
-            viewport.Children.Add(Cube(0, 0, 40, 1, 2, 40));
-            viewport.Children.Add(Cube(0, 0, 20, 20, 2, 1));
-            viewport.Children.Add(Cube(40, 0, 11, 30, 2, 1));
-            viewport.Children.Add(Cube(0, 0, 10, 1, 2, 30));
-            viewport.Children.Add(Cube(20, 0, 10, 20, 2, 1));
-            viewport.Children.Add(Cube(-20, 0, 10, 20, 2, 1));
-            viewport.Children.Add(Cube(-20, 0, 20, 1, 2, 10));
-            viewport.Children.Add(Cube(-40, 0, 40, 1, 2, 30));
-            viewport.Children.Add(Cube(20, 0, 40, 10, 2, 1));
-            viewport.Children.Add(Cube(-49, 0, 29, 1, 2, 20));
-            viewport.Children.Add(Cube(-40, 0, 10, 1, 2, 20));
-            viewport.Children.Add(Cube(0, 0, 0, 1, 2, 20));
-
-            RotateTransform3D myRotateTransform3D = new RotateTransform3D();
-            AxisAngleRotation3D myAxisAngleRotation3d = new AxisAngleRotation3D();
-            myAxisAngleRotation3d.Axis = new Vector3D(1, 0, 0);
-            myAxisAngleRotation3d.Angle = 40;
-            myRotateTransform3D.Rotation = myAxisAngleRotation3d;
-
-            Transform3DGroup myTransform3DGroup = new Transform3DGroup();
-            myTransform3DGroup.Children.Add(myRotateTransform3D);
-
-            Board.Transform = myTransform3DGroup;
+            WallContainer.Children.Add(Cube(-40, 0, -49, 30, 2, 1));
+            WallContainer.Children.Add(Cube(-39, 0, -20, 1, 2, 40));
+            WallContainer.Children.Add(Cube(15, 0, -40, 40, 2, 1));
+            WallContainer.Children.Add(Cube(-25, 0, -40, 1, 2, 40));
+            WallContainer.Children.Add(Cube(15, 0, 0, 1, 2, 25));
+            WallContainer.Children.Add(Cube(40, 0, -49, 30, 2, 1));
+            WallContainer.Children.Add(Cube(28, 0, -40, 30, 2, 1));
+            WallContainer.Children.Add(Cube(-25, 0, -39, 10, 2, 1));
+            WallContainer.Children.Add(Cube(0, 0, -30, 10, 2, 1));
+            WallContainer.Children.Add(Cube(-40, 0, -10, 1, 2, 41));
+            WallContainer.Children.Add(Cube(0, 0, 40, 1, 2, 40));
+            WallContainer.Children.Add(Cube(0, 0, 20, 20, 2, 1));
+            WallContainer.Children.Add(Cube(40, 0, 11, 30, 2, 1));
+            WallContainer.Children.Add(Cube(0, 0, 10, 1, 2, 30));
+            WallContainer.Children.Add(Cube(20, 0, 10, 20, 2, 1));
+            WallContainer.Children.Add(Cube(-20, 0, 10, 20, 2, 1));
+            WallContainer.Children.Add(Cube(-20, 0, 20, 1, 2, 10));
+            WallContainer.Children.Add(Cube(-40, 0, 40, 1, 2, 30));
+            WallContainer.Children.Add(Cube(20, 0, 40, 10, 2, 1));
+            WallContainer.Children.Add(Cube(-49, 0, 29, 1, 2, 20));
+            WallContainer.Children.Add(Cube(-40, 0, 10, 1, 2, 20));
+            WallContainer.Children.Add(Cube(0, 0, 0, 1, 2, 20));       
         }
 
+        private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ChangeRotation(e.NewValue, Slider2.Value);
+        }
+
+        private void Slider2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ChangeRotation(Slider1.Value, e.NewValue);
+        }
+
+        private void ChangeRotation(double angleX, double angleZ)
+        {
+            Transform3DGroup myTransform3DGroup = new Transform3DGroup();
+
+            RotateTransform3D rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), angleZ));
+            myTransform3DGroup.Children.Add(rotateTransform3D);
+
+            rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angleX));
+            myTransform3DGroup.Children.Add(rotateTransform3D);
+
+            Board.Transform = myTransform3DGroup;
+            WallContainer.Transform = myTransform3DGroup;
+        }
 
         public Model3DGroup Triangle(Point3D p0, Point3D p1, Point3D p2)
         {

@@ -16,7 +16,6 @@ D:\Projects\2ICT4\Opdracht1\Opdracht1\obj\Debug\Opdracht1.pdb
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\Opdracht1.exe.config
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\Opdracht1.exe
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\Opdracht1.pdb
-D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1.csprojResolveAssemblyReference.cache
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\MainWindow.g.cs
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\App.g.cs
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1_MarkupCompile.cache
