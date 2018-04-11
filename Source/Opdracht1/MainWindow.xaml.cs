@@ -30,28 +30,19 @@ namespace Opdracht1
             WallContainer.Children.Add(Cube(-49, 0, 49, 1, 2, 98)); //front wall
             WallContainer.Children.Add(Cube(-49, 0, -50, 1, 2, 98)); //back wall
 
-            WallContainer.Children.Add(Cube(-40, 0, -49, 30, 2, 1));
-            WallContainer.Children.Add(Cube(-39, 0, -20, 1, 2, 40));
-            WallContainer.Children.Add(Cube(15, 0, -40, 40, 2, 1));
-            WallContainer.Children.Add(Cube(-25, 0, -40, 1, 2, 40));
-            WallContainer.Children.Add(Cube(15, 0, 0, 1, 2, 25));
-            WallContainer.Children.Add(Cube(40, 0, -49, 30, 2, 1));
-            WallContainer.Children.Add(Cube(28, 0, -40, 30, 2, 1));
-            WallContainer.Children.Add(Cube(-25, 0, -39, 10, 2, 1));
-            WallContainer.Children.Add(Cube(0, 0, -30, 10, 2, 1));
-            WallContainer.Children.Add(Cube(-40, 0, -10, 1, 2, 41));
-            WallContainer.Children.Add(Cube(0, 0, 40, 1, 2, 40));
-            WallContainer.Children.Add(Cube(0, 0, 20, 20, 2, 1));
-            WallContainer.Children.Add(Cube(40, 0, 11, 30, 2, 1));
-            WallContainer.Children.Add(Cube(0, 0, 10, 1, 2, 30));
-            WallContainer.Children.Add(Cube(20, 0, 10, 20, 2, 1));
-            WallContainer.Children.Add(Cube(-20, 0, 10, 20, 2, 1));
-            WallContainer.Children.Add(Cube(-20, 0, 20, 1, 2, 10));
-            WallContainer.Children.Add(Cube(-40, 0, 40, 1, 2, 30));
-            WallContainer.Children.Add(Cube(20, 0, 40, 10, 2, 1));
-            WallContainer.Children.Add(Cube(-49, 0, 29, 1, 2, 20));
-            WallContainer.Children.Add(Cube(-40, 0, 10, 1, 2, 20));
-            WallContainer.Children.Add(Cube(0, 0, 0, 1, 2, 20));       
+            int[,] wallCoords = new int[,] { 
+                { -40, 0, -49, 30, 2, 1 }, { -39, 0, -20, 1, 2, 40 }, { 15, 0, -40, 40, 2, 1 }, { -25, 0, -40, 1, 2, 40 }, 
+                { 15, 0, 0, 1, 2, 25 }, { 40, 0, -49, 30, 2, 1 }, { 28, 0, -40, 30, 2, 1 }, { -25, 0, -39, 10, 2, 1 }, 
+                { 0, 0, -30, 10, 2, 1 }, { -40, 0, -10, 1, 2, 41}, {0, 0, 40, 1, 2, 40 }, {0, 0, 20, 20, 2, 1 }, 
+                {40, 0, 11, 30, 2, 1 }, { 0, 0, 10, 1, 2, 30}, { 20, 0, 10, 20, 2, 1}, {-20, 0, 10, 20, 2, 1 },
+                {-20, 0, 20, 1, 2, 10 }, { -40, 0, 40, 1, 2, 30}, {20, 0, 40, 10, 2, 1 }, { -49, 0, 29, 1, 2, 20}, 
+                { -40, 0, 10, 1, 2, 20}, {0, 0, 0, 1, 2, 20 }
+            };
+
+            for(int i = 0; i < wallCoords.GetLength(0); i++)
+            {
+                WallContainer.Children.Add(Cube(wallCoords[i,0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]));
+            }     
         }
 
         private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
