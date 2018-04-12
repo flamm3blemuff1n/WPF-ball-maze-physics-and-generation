@@ -298,11 +298,12 @@ namespace Opdracht1
             }
         }
 
+        /*
         public Point3DCollection FloorPoints3D {
             get {
                 double x = 50.0; // floor width / 2
                 double z = 50.0; // floor length / 2
-                double floorDepth = -2.5; // give the floor some depth so it's not a 2 dimensional plane 
+                double floorDepth = -2; // give the floor some depth so it's not a 2 dimensional plane 
 
                 Point3DCollection points = new Point3DCollection(20);
                 Point3D point;
@@ -361,5 +362,6 @@ namespace Opdracht1
                 return new Int32Collection(indices);
             }
         }
+        */
     }
 }
