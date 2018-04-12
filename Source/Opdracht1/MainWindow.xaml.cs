@@ -47,69 +47,7 @@ namespace Opdracht1
             ModelVisual3D sphere = Sphere(-46, 2, 46, 2, 20, 30);
             SphereContainer.Children.Add(sphere);
 
-
-            //------------------------------------
-            Transform3DGroup myTransform3DGroup = new Transform3DGroup();
-
-            AxisAngleRotation3D axis = new AxisAngleRotation3D(new Vector3D(0, 0, 1), 0);
-            RotateTransform3D rotate = new RotateTransform3D(axis);
-            rotate.CenterX = -46;
-            rotate.CenterY = 2;
-            rotate.CenterZ = 46;
-
-            myTransform3DGroup.Children.Add(rotate);
-
-            sphere.Transform = myTransform3DGroup;
-
-            NameScope scope = new NameScope();
-            FrameworkContentElement element = new FrameworkContentElement();
-            NameScope.SetNameScope(element, scope);
-
-            element.RegisterName("rotation", axis);
-
-            DoubleAnimation animation = new DoubleAnimation();
-            animation.From = 0;
-            animation.To = -1548;
-            animation.Duration = TimeSpan.FromSeconds(4);
-            animation.AutoReverse = true;
-            animation.RepeatBehavior = RepeatBehavior.Forever;
-
-            Storyboard myStoryboard = new Storyboard();
-
-            Storyboard.SetTargetProperty(animation, new PropertyPath("Angle"));
-
-            Storyboard.SetTargetName(animation, "rotation");
-            myStoryboard.Children.Add(animation);
-            myStoryboard.Duration = TimeSpan.FromSeconds(4);
-            //----
-            TranslateTransform3D tran = new TranslateTransform3D(0,0,0);
-
-            myTransform3DGroup.Children.Add(tran);
-            sphere.Transform = myTransform3DGroup;
-
-            element.RegisterName("translation", tran);
-
-            DoubleAnimation animation2 = new DoubleAnimation();
-            animation2.From = 0;
-            animation2.To = 54.036;
-            animation2.Duration = TimeSpan.FromSeconds(4);
-            animation2.AutoReverse = true;
-            animation2.RepeatBehavior = RepeatBehavior.Forever;
-
-            Storyboard.SetTargetProperty(animation2, new PropertyPath("OffsetX"));
-            
-            Storyboard.SetTargetName(animation2, "translation");
-            myStoryboard.Children.Add(animation2);
-            myStoryboard.Duration = TimeSpan.FromSeconds(4);
-            myStoryboard.RepeatBehavior = RepeatBehavior.Forever;
-            myStoryboard.AutoReverse = true;
-
-
-
-
-            this.Resources.Add("id1111", myStoryboard);
-            myStoryboard.Begin(element, HandoffBehavior.Compose);
-            //--------------------------------------
+            SimpleBallAnimation();
             
         }
 
@@ -197,7 +135,7 @@ namespace Opdracht1
 
             int pt0 = sphere_mesh.Positions.Count;
 
-            // Points.
+            // Points
             double phi1 = Math.PI / 2;
             for (int p = 0; p <= num_phi; p++)
             {
@@ -264,6 +202,72 @@ namespace Opdracht1
 
             Board.Transform = myTransform3DGroup;
             WallContainer.Transform = myTransform3DGroup;
+        }
+
+        private void SimpleBallAnimation()
+        {
+            Transform3DGroup myTransform3DGroup = new Transform3DGroup();
+
+            //rotation
+            AxisAngleRotation3D axis = new AxisAngleRotation3D(new Vector3D(0, 0, 1), 0);
+            RotateTransform3D rotate = new RotateTransform3D(axis);
+            rotate.CenterX = -46;
+            rotate.CenterY = 2;
+            rotate.CenterZ = 46;
+
+            myTransform3DGroup.Children.Add(rotate);
+
+            SphereContainer.Transform = myTransform3DGroup;
+
+            NameScope scope = new NameScope();
+            FrameworkContentElement element = new FrameworkContentElement();
+            NameScope.SetNameScope(element, scope);
+
+            element.RegisterName("rotation", axis);
+
+            DoubleAnimation animation = new DoubleAnimation();
+            animation.From = 0;
+            animation.To = -1548;
+            animation.Duration = TimeSpan.FromSeconds(4);
+            animation.AutoReverse = true;
+            animation.RepeatBehavior = RepeatBehavior.Forever;
+
+            Storyboard myStoryboard = new Storyboard();
+
+            Storyboard.SetTargetProperty(animation, new PropertyPath("Angle"));
+
+            Storyboard.SetTargetName(animation, "rotation");
+            myStoryboard.Children.Add(animation);
+            myStoryboard.Duration = TimeSpan.FromSeconds(4);
+            
+            //translation
+            TranslateTransform3D tran = new TranslateTransform3D(0, 0, 0);
+
+            myTransform3DGroup.Children.Add(tran);
+            SphereContainer.Transform = myTransform3DGroup;
+
+            element.RegisterName("translation", tran);
+
+            DoubleAnimation animation2 = new DoubleAnimation();
+            animation2.From = 0;
+            animation2.To = 54.036;
+            animation2.Duration = TimeSpan.FromSeconds(4);
+            animation2.AutoReverse = true;
+            animation2.RepeatBehavior = RepeatBehavior.Forever;
+
+            Storyboard.SetTargetProperty(animation2, new PropertyPath("OffsetX"));
+
+            Storyboard.SetTargetName(animation2, "translation");
+            myStoryboard.Children.Add(animation2);
+            myStoryboard.Duration = TimeSpan.FromSeconds(4);
+            myStoryboard.RepeatBehavior = RepeatBehavior.Forever;
+            myStoryboard.AutoReverse = true;
+
+
+
+
+            this.Resources.Add("id1111", myStoryboard);
+            myStoryboard.Begin(element, HandoffBehavior.Compose);
         }
 
         private void SphereAnimation()

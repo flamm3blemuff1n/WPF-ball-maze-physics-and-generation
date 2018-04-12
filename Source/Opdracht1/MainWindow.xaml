@@ -80,7 +80,19 @@
                 <EventTrigger RoutedEvent="Viewport3D.Loaded">
                     <BeginStoryboard>
                         <Storyboard>
-
+                            <!-- Camera position 0,120,-120-->
+                            <Point3DAnimation 
+                                Storyboard.TargetName="Camera" 
+                                Storyboard.TargetProperty="Position" 
+                                From="0,0,0" To="0,120,-120" 
+                                Duration="0:0:4"
+                            />
+                            <!-- Camera direction 0,-1,1-->
+                            <Vector3DAnimation
+                                Storyboard.TargetName="Camera" 
+                                Storyboard.TargetProperty="LookDirection" 
+                                From="0,0,1" To="0,-1,1" Duration="0:0:4"
+                            />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
