@@ -27,3 +27,7 @@ D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1.cspro
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1.csproj.CoreCompileInputs.cache
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1.exe
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1.pdb
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1.csprojResolveAssemblyReference.cache
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\images\wood1.jpg
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1_Content.g.cs
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\images\ball.jpg

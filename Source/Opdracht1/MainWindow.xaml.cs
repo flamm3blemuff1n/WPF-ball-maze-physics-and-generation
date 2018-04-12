@@ -42,60 +42,75 @@ namespace Opdracht1
             for(int i = 0; i < wallCoords.GetLength(0); i++)
             {
                 WallContainer.Children.Add(Cube(wallCoords[i,0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]));
-            }     
-        }
+            }
 
-        private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            ChangeRotation(e.NewValue, Slider2.Value);
-        }
+            ModelVisual3D sphere = Sphere(-46, 2, 46, 2, 20, 30);
+            SphereContainer.Children.Add(sphere);
 
-        private void Slider2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            ChangeRotation(Slider1.Value, e.NewValue);
-        }
 
-        private void ChangeRotation(double angleX, double angleZ)
-        {
+            //------------------------------------
             Transform3DGroup myTransform3DGroup = new Transform3DGroup();
 
-            RotateTransform3D rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), angleZ));
-            myTransform3DGroup.Children.Add(rotateTransform3D);
+            AxisAngleRotation3D axis = new AxisAngleRotation3D(new Vector3D(0, 0, 1), 0);
+            RotateTransform3D rotate = new RotateTransform3D(axis);
+            rotate.CenterX = -46;
+            rotate.CenterY = 2;
+            rotate.CenterZ = 46;
 
-            rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angleX));
-            myTransform3DGroup.Children.Add(rotateTransform3D);
+            myTransform3DGroup.Children.Add(rotate);
 
-            Board.Transform = myTransform3DGroup;
-            WallContainer.Transform = myTransform3DGroup;
-        }
+            sphere.Transform = myTransform3DGroup;
 
-        public Model3DGroup Triangle(Point3D p0, Point3D p1, Point3D p2)
-        {
-            MeshGeometry3D mesh = new MeshGeometry3D();
-            mesh.Positions.Add(p0);
-            mesh.Positions.Add(p1);
-            mesh.Positions.Add(p2);
-            mesh.TriangleIndices.Add(0);
-            mesh.TriangleIndices.Add(1);
-            mesh.TriangleIndices.Add(2);
+            NameScope scope = new NameScope();
+            FrameworkContentElement element = new FrameworkContentElement();
+            NameScope.SetNameScope(element, scope);
 
-            Vector3D normal = CalcNormal(p0, p1, p2);
-            mesh.Normals.Add(normal);
-            mesh.Normals.Add(normal);
-            mesh.Normals.Add(normal);
+            element.RegisterName("rotation", axis);
 
-            Material material = new DiffuseMaterial(new SolidColorBrush(Colors.Red));
-            GeometryModel3D model = new GeometryModel3D(mesh, material);
-            Model3DGroup group = new Model3DGroup();
-            group.Children.Add(model);
-            return group;
-        }
+            DoubleAnimation animation = new DoubleAnimation();
+            animation.From = 0;
+            animation.To = -1548;
+            animation.Duration = TimeSpan.FromSeconds(4);
+            animation.AutoReverse = true;
+            animation.RepeatBehavior = RepeatBehavior.Forever;
 
-        public static Vector3D CalcNormal(Point3D p0, Point3D p1, Point3D p2)
-        {
-            Vector3D v0 = new Vector3D(p1.X - p0.X, p1.Y - p0.Y, p1.Z - p0.Z);
-            Vector3D v1 = new Vector3D(p2.X - p1.X, p2.Y - p1.Y, p2.Z - p1.Z);
-            return Vector3D.CrossProduct(v0, v1);
+            Storyboard myStoryboard = new Storyboard();
+
+            Storyboard.SetTargetProperty(animation, new PropertyPath("Angle"));
+
+            Storyboard.SetTargetName(animation, "rotation");
+            myStoryboard.Children.Add(animation);
+            myStoryboard.Duration = TimeSpan.FromSeconds(4);
+            //----
+            TranslateTransform3D tran = new TranslateTransform3D(0,0,0);
+
+            myTransform3DGroup.Children.Add(tran);
+            sphere.Transform = myTransform3DGroup;
+
+            element.RegisterName("translation", tran);
+
+            DoubleAnimation animation2 = new DoubleAnimation();
+            animation2.From = 0;
+            animation2.To = 54.036;
+            animation2.Duration = TimeSpan.FromSeconds(4);
+            animation2.AutoReverse = true;
+            animation2.RepeatBehavior = RepeatBehavior.Forever;
+
+            Storyboard.SetTargetProperty(animation2, new PropertyPath("OffsetX"));
+            
+            Storyboard.SetTargetName(animation2, "translation");
+            myStoryboard.Children.Add(animation2);
+            myStoryboard.Duration = TimeSpan.FromSeconds(4);
+            myStoryboard.RepeatBehavior = RepeatBehavior.Forever;
+            myStoryboard.AutoReverse = true;
+
+
+
+
+            this.Resources.Add("id1111", myStoryboard);
+            myStoryboard.Begin(element, HandoffBehavior.Compose);
+            //--------------------------------------
+            
         }
 
         public ModelVisual3D Cube(int x, int y, int z, double length, double height, double width)
@@ -135,6 +150,148 @@ namespace Opdracht1
             cube.Children.Add(Triangle(p7, p6, p4));
 
             return new ModelVisual3D{ Content = cube };
+        }
+
+        public Model3DGroup Triangle(Point3D p0, Point3D p1, Point3D p2)
+        {
+            MeshGeometry3D mesh = new MeshGeometry3D();
+            mesh.Positions.Add(p0);
+            mesh.Positions.Add(p1);
+            mesh.Positions.Add(p2);
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(1);
+            mesh.TriangleIndices.Add(2);
+
+            Vector3D normal = CalcNormal(p0, p1, p2);
+            mesh.Normals.Add(normal);
+            mesh.Normals.Add(normal);
+            mesh.Normals.Add(normal);
+
+            Material material = new DiffuseMaterial(new SolidColorBrush(Colors.Red));
+            GeometryModel3D model = new GeometryModel3D(mesh, material);
+            Model3DGroup group = new Model3DGroup();
+            group.Children.Add(model);
+            return group;
+        }
+
+        public static Vector3D CalcNormal(Point3D p0, Point3D p1, Point3D p2)
+        {
+            Vector3D v0 = new Vector3D(p1.X - p0.X, p1.Y - p0.Y, p1.Z - p0.Z);
+            Vector3D v1 = new Vector3D(p2.X - p1.X, p2.Y - p1.Y, p2.Z - p1.Z);
+            return Vector3D.CrossProduct(v0, v1);
+        }
+
+        /*
+         *  http://csharphelper.com/blog/2017/05/make-3d-globe-wpf-c/
+         */
+        private ModelVisual3D Sphere(double x, double y, double z, double radius, int num_phi, int num_theta)
+        {
+            Model3DGroup sphere = new Model3DGroup();
+
+            MeshGeometry3D sphere_mesh = new MeshGeometry3D();
+            GeometryModel3D model = new GeometryModel3D(sphere_mesh, new DiffuseMaterial(new ImageBrush(new BitmapImage(new Uri("images/ball.jpg", UriKind.Relative)))));
+            sphere.Children.Add(model);
+
+            double dphi = Math.PI / num_phi;
+            double dtheta = 2 * Math.PI / num_theta;
+
+            int pt0 = sphere_mesh.Positions.Count;
+
+            // Points.
+            double phi1 = Math.PI / 2;
+            for (int p = 0; p <= num_phi; p++)
+            {
+                double r1 = radius * Math.Cos(phi1);
+                double y1 = radius * Math.Sin(phi1);
+
+                double theta = 0;
+                for (int t = 0; t <= num_theta; t++)
+                {
+                    sphere_mesh.Positions.Add(new Point3D(
+                        x + r1 * Math.Cos(theta),
+                        y + y1,
+                        z + -r1 * Math.Sin(theta)));
+                    sphere_mesh.TextureCoordinates.Add(new Point(
+                        (double)t / num_theta, (double)p / num_phi));
+                    theta += dtheta;
+                }
+                phi1 -= dphi;
+            }
+
+            // Triangles.
+            int i1, i2, i3, i4;
+            for (int p = 0; p <= num_phi - 1; p++)
+            {
+                i1 = p * (num_theta + 1);
+                i2 = i1 + (num_theta + 1);
+                for (int t = 0; t <= num_theta - 1; t++)
+                {
+                    i3 = i1 + 1;
+                    i4 = i2 + 1;
+                    sphere_mesh.TriangleIndices.Add(pt0 + i1);
+                    sphere_mesh.TriangleIndices.Add(pt0 + i2);
+                    sphere_mesh.TriangleIndices.Add(pt0 + i4);
+
+                    sphere_mesh.TriangleIndices.Add(pt0 + i1);
+                    sphere_mesh.TriangleIndices.Add(pt0 + i4);
+                    sphere_mesh.TriangleIndices.Add(pt0 + i3);
+                    i1 += 1;
+                    i2 += 1;
+                }
+            }
+            return new ModelVisual3D{ Content = sphere };
+        }
+
+        private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ChangeBoardRotation(e.NewValue, Slider2.Value);
+        }
+
+        private void Slider2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ChangeBoardRotation(Slider1.Value, e.NewValue);
+        }
+
+        private void ChangeBoardRotation(double angleX, double angleZ)
+        {
+            Transform3DGroup myTransform3DGroup = new Transform3DGroup();
+
+            RotateTransform3D rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), angleZ));
+            myTransform3DGroup.Children.Add(rotateTransform3D);
+
+            rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angleX));
+            myTransform3DGroup.Children.Add(rotateTransform3D);
+
+            Board.Transform = myTransform3DGroup;
+            WallContainer.Transform = myTransform3DGroup;
+        }
+
+        private void SphereAnimation()
+        {
+            //-46 2 46
+            double angle = 0;
+            double x = -46;
+            double y = 2;
+            double z = 46;
+            for (int i = 0; i<=100; i++)
+            {
+                Transform3DGroup myTransform3DGroup = new Transform3DGroup();
+                RotateTransform3D rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), angle));
+                myTransform3DGroup.Children.Add(rotateTransform3D);
+
+                TranslateTransform3D translate = new TranslateTransform3D(new Vector3D(0.25,0,0));
+                translate.OffsetX = x;
+                translate.OffsetY = y;
+                translate.OffsetZ = z;
+                myTransform3DGroup.Children.Add(translate);
+
+                SphereContainer.Transform = myTransform3DGroup;
+
+                
+                
+                angle += 7;
+                x += 0.25;
+            }
         }
 
         public Point3DCollection FloorPoints3D {

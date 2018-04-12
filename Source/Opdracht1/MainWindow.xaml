@@ -17,7 +17,7 @@
             <Slider Width="500" Minimum="-90" Maximum="90" VerticalAlignment="Top" Margin="40,28,0,0" Name="Slider1" ValueChanged="Slider1_ValueChanged"/>
             <Slider Width="500" Minimum="-90" Maximum="90" VerticalAlignment="Top" Margin="40,28,0,0" Name="Slider2" ValueChanged="Slider2_ValueChanged"/>
         </StackPanel>
-      
+
         <Viewport3D x:Name="viewport" Grid.Row="1" RenderOptions.CachingHint="Cache" ClipToBounds="True" RenderTransformOrigin="0.5,0.5">
             <Viewport3D.Camera>
                 <PerspectiveCamera x:Name="Camera"
@@ -25,7 +25,7 @@
                                    LookDirection="0,-1,1" 
                                    UpDirection="0,1,0" 
                                    NearPlaneDistance="1"  
-                                   Position="0,120,-100" 
+                                   Position="0,50,0" 
                                    FieldOfView="75">
                 </PerspectiveCamera>
             </Viewport3D.Camera>
@@ -33,15 +33,6 @@
             <!-- BOARD -->
             <ModelUIElement3D x:Name="Board" >
                 <GeometryModel3D>
-                    <!--
-                    <GeometryModel3D.Transform>
-                        <RotateTransform3D>
-                            <RotateTransform3D.Rotation>
-                                <AxisAngleRotation3D Axis="0,0,1" Angle="0" />
-                            </RotateTransform3D.Rotation>
-                        </RotateTransform3D>
-                    </GeometryModel3D.Transform>
-                    -->
                     <GeometryModel3D.Geometry>
                         <MeshGeometry3D x:Name="floorGeometry" 
                                         Positions="{Binding FloorPoints3D, ElementName=Window}" 
@@ -60,23 +51,26 @@
                     </GeometryModel3D.BackMaterial>
                 </GeometryModel3D>
             </ModelUIElement3D>
-
+            
+            <!-- WALLS -->
             <ContainerUIElement3D x:Name="WallContainer" />
+            <ContainerUIElement3D x:Name="SphereContainer">
+                <ContainerUIElement3D.Transform>
+                    <RotateTransform3D x:Name="SphereRotation" >
+                        <RotateTransform3D.Rotation>
+                            <AxisAngleRotation3D Axis="0,0,0" Angle="0" />
+                        </RotateTransform3D.Rotation>
+                    </RotateTransform3D>
+                </ContainerUIElement3D.Transform>
+            </ContainerUIElement3D>
 
-            <ModelVisual3D x:Name="viewportLightsModelVisual3D">
+            <!-- LIGHTING -->
+            <ModelVisual3D x:Name="Light">
                 <ModelVisual3D.Content>
                     <Model3DGroup>
-                        <AmbientLight x:Name="ambientLight" Color="#666666"/>
-                        <DirectionalLight x:Name="directionalLight" Color="#444444" Direction="0 -1 -1">
+                        <AmbientLight Color="#333333"/>
+                        <DirectionalLight Color="#EEEEEE" Direction="0 -1 -1">
                         </DirectionalLight>
-                        <SpotLight x:Name="spotLight" 
-                                   Color="#666666" 
-                                   Direction="0 0 -1" 
-                                   InnerConeAngle="30" 
-                                   OuterConeAngle="60" 
-                                   Position="0 1 30"
-                        >
-                        </SpotLight>
                     </Model3DGroup>
                 </ModelVisual3D.Content>
             </ModelVisual3D>
@@ -86,19 +80,7 @@
                 <EventTrigger RoutedEvent="Viewport3D.Loaded">
                     <BeginStoryboard>
                         <Storyboard>
-                            <!-- Camera position -->
-                            <Point3DAnimation 
-                                Storyboard.TargetName="Camera" 
-                                Storyboard.TargetProperty="Position" 
-                                From="0,0,0" To="0,120,-120" 
-                                Duration="0:0:4"
-                            />
-                            <!-- Camera direction -->
-                            <Vector3DAnimation
-                                Storyboard.TargetName="Camera" 
-                                Storyboard.TargetProperty="LookDirection" 
-                                From="0,0,1" To="0,-1,1" Duration="0:0:4"
-                            />
+
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
