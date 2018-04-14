@@ -51,14 +51,8 @@ namespace Opdracht1
             
         }
 
-        public ModelVisual3D Cube(int x, int y, int z, double length, double height, double width)
+        public ModelVisual3D Cube(int x, int y, int z, double l, double h, double w)
         {
-            Model3DGroup cube = new Model3DGroup();
-
-            double l = length;
-            double h = height;
-            double w = width;
-
             Point3D p0 = new Point3D(x + 0, y + 0, z + 0);
             Point3D p1 = new Point3D(x + w, y + 0, z + 0);
             Point3D p2 = new Point3D(x + 0, y + h, z + 0);
@@ -67,6 +61,8 @@ namespace Opdracht1
             Point3D p5 = new Point3D(x + w, y + 0, z + l);
             Point3D p6 = new Point3D(x + 0, y + h, z + l);
             Point3D p7 = new Point3D(x + w, y + h, z + l);
+
+            Model3DGroup cube = new Model3DGroup();
 
             //front
             cube.Children.Add(Triangle(p0, p2, p3));
@@ -270,34 +266,6 @@ namespace Opdracht1
 
             this.Resources.Add("id1111", myStoryboard);
             myStoryboard.Begin(element, HandoffBehavior.Compose);
-        }
-
-        private void SphereAnimation()
-        {
-            //-46 2 46
-            double angle = 0;
-            double x = -46;
-            double y = 2;
-            double z = 46;
-            for (int i = 0; i<=100; i++)
-            {
-                Transform3DGroup myTransform3DGroup = new Transform3DGroup();
-                RotateTransform3D rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), angle));
-                myTransform3DGroup.Children.Add(rotateTransform3D);
-
-                TranslateTransform3D translate = new TranslateTransform3D(new Vector3D(0.25,0,0));
-                translate.OffsetX = x;
-                translate.OffsetY = y;
-                translate.OffsetZ = z;
-                myTransform3DGroup.Children.Add(translate);
-
-                SphereContainer.Transform = myTransform3DGroup;
-
-                
-                
-                angle += 7;
-                x += 0.25;
-            }
         }
 
         /*
