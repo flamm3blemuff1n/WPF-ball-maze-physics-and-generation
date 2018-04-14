@@ -100,19 +100,21 @@ namespace Opdracht1
             mesh.TriangleIndices.Add(1);
             mesh.TriangleIndices.Add(2);
 
-            Vector3D normal = CalcNormal(p0, p1, p2);
-            mesh.Normals.Add(normal);
-            mesh.Normals.Add(normal);
-            mesh.Normals.Add(normal);
+            Vector3D normals = GetNormals(p0, p1, p2);
+            mesh.Normals.Add(normals);
+            mesh.Normals.Add(normals);
+            mesh.Normals.Add(normals);
 
-            Material material = new DiffuseMaterial(new SolidColorBrush(Colors.Red));
-            GeometryModel3D model = new GeometryModel3D(mesh, material);
+            GeometryModel3D triangle = new GeometryModel3D(mesh, new DiffuseMaterial(new SolidColorBrush(Colors.Red)));
             Model3DGroup group = new Model3DGroup();
-            group.Children.Add(model);
+            group.Children.Add(triangle);
             return group;
         }
 
-        public static Vector3D CalcNormal(Point3D p0, Point3D p1, Point3D p2)
+        /*
+         * http://www.pererikstrandberg.se/blog/index.cgi?page=WpfCubeThreeDee
+         */
+        public static Vector3D GetNormals(Point3D p0, Point3D p1, Point3D p2)
         {
             Vector3D v0 = new Vector3D(p1.X - p0.X, p1.Y - p0.Y, p1.Z - p0.Z);
             Vector3D v1 = new Vector3D(p2.X - p1.X, p2.Y - p1.Y, p2.Z - p1.Z);
