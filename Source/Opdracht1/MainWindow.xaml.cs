@@ -223,12 +223,14 @@ namespace Opdracht1
 
             element.RegisterName("rotation", axis);
 
-            DoubleAnimation animation = new DoubleAnimation();
-            animation.From = 0;
-            animation.To = -1548;
-            animation.Duration = TimeSpan.FromSeconds(4);
-            animation.AutoReverse = true;
-            animation.RepeatBehavior = RepeatBehavior.Forever;
+            DoubleAnimation animation = new DoubleAnimation
+            {
+                From = 0,
+                To = -1548,
+                Duration = TimeSpan.FromSeconds(4),
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
 
             Storyboard myStoryboard = new Storyboard();
 
@@ -246,12 +248,14 @@ namespace Opdracht1
 
             element.RegisterName("translation", tran);
 
-            DoubleAnimation animation2 = new DoubleAnimation();
-            animation2.From = 0;
-            animation2.To = 54.036;
-            animation2.Duration = TimeSpan.FromSeconds(4);
-            animation2.AutoReverse = true;
-            animation2.RepeatBehavior = RepeatBehavior.Forever;
+            DoubleAnimation animation2 = new DoubleAnimation
+            {
+                From = 0,
+                To = 54.036,
+                Duration = TimeSpan.FromSeconds(4),
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
 
             Storyboard.SetTargetProperty(animation2, new PropertyPath("OffsetX"));
 
@@ -260,9 +264,6 @@ namespace Opdracht1
             myStoryboard.Duration = TimeSpan.FromSeconds(4);
             myStoryboard.RepeatBehavior = RepeatBehavior.Forever;
             myStoryboard.AutoReverse = true;
-
-
-
 
             this.Resources.Add("id1111", myStoryboard);
             myStoryboard.Begin(element, HandoffBehavior.Compose);
