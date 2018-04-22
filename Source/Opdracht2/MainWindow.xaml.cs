@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 
 namespace Opdracht1
 {
@@ -22,6 +23,22 @@ namespace Opdracht1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const double GRAVITY = 981;
+
+        private const int FPS = 100;
+        private double frameInterval;
+
+        private double boardAngleX = 0;
+        private double boardAngleZ = 0;
+
+        private TranslateTransform3D sphereTranslation;
+        private double ballSpeedX = 0;
+        private double ballSpeedZ = 0;
+
+        private const double STATIC_FRICTION_COEFFICIENT = 0.05; //metal on wood friction
+        private const double KINETIC_FRICTION_COEFFICIENT = 0.025;
+        private const double COR = 0.45; // botsing coefficient voor aluminium
+
         public MainWindow()
         {
             InitializeComponent();
@@ -45,69 +62,94 @@ namespace Opdracht1
                 WallContainer.Children.Add(new Cube(wallCoords[i, 0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]).Model);
             }
 
-            ModelVisual3D sphere = Sphere(-46, 2, 46, 2, 20, 30);
-            SphereContainer.Children.Add(sphere);
+            GeometryModel3D sphere = new Sphere(0, 0, 0, 2, 20, 30).Model;
+            SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
+
+
+            Transform3DGroup sphereTransformations = new Transform3DGroup();
+            sphereTranslation = new TranslateTransform3D(45, 1.5, 45);
+            sphereTransformations.Children.Add(sphereTranslation);
+            sphere.Transform = sphereTransformations;
+
+            StartGameTimer();
+        }
+
+        private void StartGameTimer()
+        {
+            frameInterval = 1 / (double)FPS;
+            int frameIntervalMs = (int)(this.frameInterval * 1000);
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(Frame);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, frameIntervalMs);
+            timer.Start();
+        }
+
+        private void Frame(object sender, EventArgs e)
+        {
+            double x = 0;
+            double z = 0;
+
+            x = MoveX();
+            z = MoveZ();
+
+            sphereTranslation.OffsetX += x;
+            sphereTranslation.OffsetZ += z;
+        }
+
+        private double MoveX()
+        {
+            double a = -GetBallAcceleration(boardAngleZ);
+            int frictionDirection = ballSpeedX != 0 ? Math.Sign(ballSpeedX) : Math.Sign(a);
+            double friction = GetBallFriction(boardAngleZ) * frictionDirection;
+            double speed = GetBallSpeed(ballSpeedX, a, friction);
+            ballSpeedX = speed;
+            return GetDistance(friction, a, speed);
+        }
+
+        private double MoveZ()
+        {
+            double a = GetBallAcceleration(boardAngleX);
+            int frictionDirection = ballSpeedZ != 0 ? Math.Sign(ballSpeedZ) : Math.Sign(a);
+            double friction = GetBallFriction(boardAngleX) * frictionDirection;
+            double speed = GetBallSpeed(ballSpeedZ, a, friction);
+            ballSpeedZ = speed;
+            return GetDistance(friction, a, speed);
         }
 
         /*
-         *  http://csharphelper.com/blog/2017/05/make-3d-globe-wpf-c/
+         * Gravity acceleration splits into 2 components cos and sin because of angle
+         * a = a * sin(angle)
          */
-        private ModelVisual3D Sphere(double x, double y, double z, double radius, int num_phi, int num_theta)
+        private double GetBallAcceleration(double angle)
         {
-            Model3DGroup sphere = new Model3DGroup();
+            return GRAVITY * Math.Sin(angle * Math.PI / 180); //Direction and value for gravity acceleration
+        }
 
-            MeshGeometry3D sphere_mesh = new MeshGeometry3D();
-            GeometryModel3D model = new GeometryModel3D(sphere_mesh, new DiffuseMaterial(new ImageBrush(new BitmapImage(new Uri("images/ball.jpg", UriKind.Relative)))));
-            sphere.Children.Add(model);
+        /*
+         * Choose friction coefficient based onm ball movement, gravity is split in 2 components sin and cos because of angle
+         * Fw = Fn * Coefficient
+         */
+        private double GetBallFriction(double angle)
+        {
+            double frictionCoefficient = KINETIC_FRICTION_COEFFICIENT; //MOVING
+            if (ballSpeedX == 0 && ballSpeedZ == 0) frictionCoefficient = STATIC_FRICTION_COEFFICIENT; //NOT MOVING
+            return (GRAVITY * Math.Cos(angle * Math.PI / 180)) * frictionCoefficient; // Direction and friction according to gravity
+        }
 
-            double dphi = Math.PI / num_phi;
-            double dtheta = 2 * Math.PI / num_theta;
+        /*
+         * v(t) = v0 + a * t
+         */
+        private double GetBallSpeed(double speed, double acceleration, double friction)
+        {
+            return speed + (acceleration - friction) * frameInterval;
+        }
 
-            int pt0 = sphere_mesh.Positions.Count;
-
-            // Points
-            double phi1 = Math.PI / 2;
-            for (int p = 0; p <= num_phi; p++)
-            {
-                double r1 = radius * Math.Cos(phi1);
-                double y1 = radius * Math.Sin(phi1);
-
-                double theta = 0;
-                for (int t = 0; t <= num_theta; t++)
-                {
-                    sphere_mesh.Positions.Add(new Point3D(
-                        x + r1 * Math.Cos(theta),
-                        y + y1,
-                        z + -r1 * Math.Sin(theta)));
-                    sphere_mesh.TextureCoordinates.Add(new Point(
-                        (double)t / num_theta, (double)p / num_phi));
-                    theta += dtheta;
-                }
-                phi1 -= dphi;
-            }
-
-            // Triangles.
-            int i1, i2, i3, i4;
-            for (int p = 0; p <= num_phi - 1; p++)
-            {
-                i1 = p * (num_theta + 1);
-                i2 = i1 + (num_theta + 1);
-                for (int t = 0; t <= num_theta - 1; t++)
-                {
-                    i3 = i1 + 1;
-                    i4 = i2 + 1;
-                    sphere_mesh.TriangleIndices.Add(pt0 + i1);
-                    sphere_mesh.TriangleIndices.Add(pt0 + i2);
-                    sphere_mesh.TriangleIndices.Add(pt0 + i4);
-
-                    sphere_mesh.TriangleIndices.Add(pt0 + i1);
-                    sphere_mesh.TriangleIndices.Add(pt0 + i4);
-                    sphere_mesh.TriangleIndices.Add(pt0 + i3);
-                    i1 += 1;
-                    i2 += 1;
-                }
-            }
-            return new ModelVisual3D { Content = sphere };
+        /*
+         * s = (v0 * t) + (1/2 * a * t^2)
+         */
+        private double GetDistance(double friction, double a, double speed)
+        {
+            return (speed * frameInterval) + ((1 / 2) * a * Math.Pow(frameInterval, 2));
         }
 
         private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -122,6 +164,8 @@ namespace Opdracht1
 
         private void ChangeBoardRotation(double angleX, double angleZ)
         {
+            this.boardAngleX = angleX;
+            this.boardAngleZ = angleZ;
             Transform3DGroup myTransform3DGroup = new Transform3DGroup();
 
             RotateTransform3D rotateTransform3D = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), angleZ));
@@ -132,6 +176,7 @@ namespace Opdracht1
 
             Board.Transform = myTransform3DGroup;
             WallContainer.Transform = myTransform3DGroup;
+            SphereContainer.Transform = myTransform3DGroup;
         }
     }
 }

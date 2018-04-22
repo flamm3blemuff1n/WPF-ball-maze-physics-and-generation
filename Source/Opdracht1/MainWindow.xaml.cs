@@ -45,71 +45,10 @@ namespace Opdracht1
                 WallContainer.Children.Add(new Cube(wallCoords[i,0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]).Model);
             }
 
-            ModelVisual3D sphere = Sphere(-46, 2, 46, 2, 20, 30);
-            SphereContainer.Children.Add(sphere);
+            GeometryModel3D sphere = new Sphere(-46, 2, 46, 2, 20, 30).Model;
+            SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
 
             SimpleBallAnimation();
-        }
-
-        /*
-         *  http://csharphelper.com/blog/2017/05/make-3d-globe-wpf-c/
-         */
-        private ModelVisual3D Sphere(double x, double y, double z, double radius, int num_phi, int num_theta)
-        {
-            Model3DGroup sphere = new Model3DGroup();
-
-            MeshGeometry3D sphere_mesh = new MeshGeometry3D();
-            GeometryModel3D model = new GeometryModel3D(sphere_mesh, new DiffuseMaterial(new ImageBrush(new BitmapImage(new Uri("images/ball.jpg", UriKind.Relative)))));
-            sphere.Children.Add(model);
-
-            double dphi = Math.PI / num_phi;
-            double dtheta = 2 * Math.PI / num_theta;
-
-            int pt0 = sphere_mesh.Positions.Count;
-
-            // Points
-            double phi1 = Math.PI / 2;
-            for (int p = 0; p <= num_phi; p++)
-            {
-                double r1 = radius * Math.Cos(phi1);
-                double y1 = radius * Math.Sin(phi1);
-
-                double theta = 0;
-                for (int t = 0; t <= num_theta; t++)
-                {
-                    sphere_mesh.Positions.Add(new Point3D(
-                        x + r1 * Math.Cos(theta),
-                        y + y1,
-                        z + -r1 * Math.Sin(theta)));
-                    sphere_mesh.TextureCoordinates.Add(new Point(
-                        (double)t / num_theta, (double)p / num_phi));
-                    theta += dtheta;
-                }
-                phi1 -= dphi;
-            }
-
-            // Triangles.
-            int i1, i2, i3, i4;
-            for (int p = 0; p <= num_phi - 1; p++)
-            {
-                i1 = p * (num_theta + 1);
-                i2 = i1 + (num_theta + 1);
-                for (int t = 0; t <= num_theta - 1; t++)
-                {
-                    i3 = i1 + 1;
-                    i4 = i2 + 1;
-                    sphere_mesh.TriangleIndices.Add(pt0 + i1);
-                    sphere_mesh.TriangleIndices.Add(pt0 + i2);
-                    sphere_mesh.TriangleIndices.Add(pt0 + i4);
-
-                    sphere_mesh.TriangleIndices.Add(pt0 + i1);
-                    sphere_mesh.TriangleIndices.Add(pt0 + i4);
-                    sphere_mesh.TriangleIndices.Add(pt0 + i3);
-                    i1 += 1;
-                    i2 += 1;
-                }
-            }
-            return new ModelVisual3D{ Content = sphere };
         }
 
         private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -134,6 +73,7 @@ namespace Opdracht1
 
             Board.Transform = myTransform3DGroup;
             WallContainer.Transform = myTransform3DGroup;
+            SphereContainer.Transform = myTransform3DGroup;
         }
 
         private void SimpleBallAnimation()

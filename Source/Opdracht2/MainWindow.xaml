@@ -39,7 +39,7 @@
                 <ModelVisual3D.Content>
                     <GeometryModel3D>
                         <GeometryModel3D.Geometry>
-                            <MeshGeometry3D Positions="50,-2,-50 -50,-2,-50 50,0,-50 -50,0,-50 50,-2,50 -50,-2,50 50,0,50 -50,0,50" 
+                            <MeshGeometry3D Positions="51,-2,-51 -51,-2,-51 51,0,-51 -51,0,-51 51,-2,51 -51,-2,51 51,0,51 -51,0,51" 
                                             TriangleIndices="0,1,3 3,2,0 1,5,7 7,3,1 5,4,6 6,7,5 4,0,2 2,6,4 2,3,7 7,6,2 4,0,1 1,5,4" 
                                             Normals="0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0"
                                             TextureCoordinates="0,0 0,0 0,0 0,1 0,0 0,0 1,0 1,1"/>
@@ -75,4 +75,3 @@
         </Viewport3D>
     </Grid>
 </Window>
-
