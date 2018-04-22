@@ -1,18 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 
@@ -23,6 +11,8 @@ namespace Opdracht1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<Cube> walls;
+
         private const double GRAVITY = 981;
 
         private const int FPS = 100;
@@ -43,12 +33,10 @@ namespace Opdracht1
         {
             InitializeComponent();
 
-            WallContainer.Children.Add(new Cube(-51, 0, -51, 102, 2, 1).Model);
-            WallContainer.Children.Add(new Cube(50, 0, -51, 102, 2, 1).Model);
-            WallContainer.Children.Add(new Cube(-50, 0, -51, 1, 2, 100).Model);
-            WallContainer.Children.Add(new Cube(-50, 0, 50, 1, 2, 100).Model);
+            walls = new List<Cube>();
 
             int[,] wallCoords = new int[,] {
+                { -51, 0, -51, 102, 2, 1 }, { 50, 0, -51, 102, 2, 1 }, { -50, 0, -51, 1, 2, 100 }, { -50, 0, 50, 1, 2, 100 }, //4 sides
                 { -40, 0, -49, 30, 2, 1 }, { -39, 0, -20, 1, 2, 40 }, { 15, 0, -40, 40, 2, 1 }, { -25, 0, -40, 1, 2, 40 },
                 { 15, 0, 0, 1, 2, 25 }, { 40, 0, -49, 30, 2, 1 }, { 28, 0, -40, 30, 2, 1 }, { -25, 0, -39, 10, 2, 1 },
                 { 0, 0, -30, 10, 2, 1 }, { -40, 0, -10, 1, 2, 41}, {0, 0, 40, 1, 2, 40 }, {0, 0, 20, 20, 2, 1 },
@@ -59,7 +47,9 @@ namespace Opdracht1
 
             for (int i = 0; i < wallCoords.GetLength(0); i++)
             {
-                WallContainer.Children.Add(new Cube(wallCoords[i, 0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]).Model);
+                Cube wall = new Cube(wallCoords[i, 0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]);
+                walls.Add(wall);
+                WallContainer.Children.Add(wall.Model);
             }
 
             GeometryModel3D sphere = new Sphere(0, 0, 0, 2, 20, 30).Model;
