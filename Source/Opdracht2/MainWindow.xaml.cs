@@ -109,7 +109,12 @@ namespace Opdracht2
                 if(wallToBallDistanceX > (cube.LX/2) + ballRadius || wallToBallDistanceZ > (cube.LZ / 2) + ballRadius)
                 {
                     continue; //not touching
-                }  
+                }
+                else if (wallToBallDistanceZ <= (cube.LZ / 2) && wallToBallDistanceX <= (cube.LX / 2))
+                {
+                    distanceX = 0;
+                    distanceZ = 0;
+                }
                 else if (wallToBallDistanceX <= (cube.LX / 2))
                 {
                     distanceZ = 0;
