@@ -114,6 +114,8 @@ namespace Opdracht2
                 {
                     distanceX = 0;
                     distanceZ = 0;
+                    ballSpeedX = 0;
+                    ballSpeedZ = 0;
                 }
                 else if (wallToBallDistanceX <= (cube.LX / 2))
                 {
