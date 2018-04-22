@@ -13,20 +13,20 @@ namespace Opdracht1
         public int X { get; }
         public int Y { get; }
         public int Z { get; }
-        public double LX { get; }
-        public double LY { get; }
         public double LZ { get; }
+        public double LY { get; }
+        public double LX { get; }
 
         public ModelVisual3D Model { get; private set; }
 
-        public Cube(int x, int y, int z, double pXLength, double pYLength, double pZLength)
+        public Cube(int x, int y, int z, double pZLength, double pYLength, double pXLength)
         {
             this.X = x;
             this.Y = y;
             this.Z = z;
-            this.LX = pXLength;
-            this.LY = pYLength;
             this.LZ = pZLength;
+            this.LY = pYLength;
+            this.LX = pXLength;
 
             CreateCube();
         }
@@ -34,13 +34,13 @@ namespace Opdracht1
         private void CreateCube()
         {
             Point3D p0 = new Point3D(X + 0, Y + 0, Z + 0);
-            Point3D p1 = new Point3D(X + LZ, Y + 0, Z + 0);
+            Point3D p1 = new Point3D(X + LX, Y + 0, Z + 0);
             Point3D p2 = new Point3D(X + 0, Y + LY, Z + 0);
-            Point3D p3 = new Point3D(X + LZ, Y + LY, Z + 0);
-            Point3D p4 = new Point3D(X + 0, Y + 0, Z + LX);
-            Point3D p5 = new Point3D(X + LZ, Y + 0, Z + LX);
-            Point3D p6 = new Point3D(X + 0, Y + LY, Z + LX);
-            Point3D p7 = new Point3D(X + LZ, Y + LY, Z + LX);
+            Point3D p3 = new Point3D(X + LX, Y + LY, Z + 0);
+            Point3D p4 = new Point3D(X + 0, Y + 0, Z + LZ);
+            Point3D p5 = new Point3D(X + LX, Y + 0, Z + LZ);
+            Point3D p6 = new Point3D(X + 0, Y + LY, Z + LZ);
+            Point3D p7 = new Point3D(X + LX, Y + LY, Z + LZ);
 
             Model3DGroup cube = new Model3DGroup();
 

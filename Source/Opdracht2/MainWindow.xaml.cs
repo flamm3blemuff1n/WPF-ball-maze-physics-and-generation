@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Opdracht1;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 
-namespace Opdracht1
+namespace Opdracht2
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -21,6 +22,7 @@ namespace Opdracht1
         private double boardAngleX = 0;
         private double boardAngleZ = 0;
 
+        private const double ballRadius = 2;
         private TranslateTransform3D sphereTranslation;
         private double ballSpeedX = 0;
         private double ballSpeedZ = 0;
@@ -55,9 +57,8 @@ namespace Opdracht1
             GeometryModel3D sphere = new Sphere(0, 0, 0, 2, 20, 30).Model;
             SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
 
-
             Transform3DGroup sphereTransformations = new Transform3DGroup();
-            sphereTranslation = new TranslateTransform3D(45, 1.5, 45);
+            sphereTranslation = new TranslateTransform3D(45, 2, 45);
             sphereTransformations.Children.Add(sphereTranslation);
             sphere.Transform = sphereTransformations;
 
@@ -82,8 +83,44 @@ namespace Opdracht1
             x = MoveX();
             z = MoveZ();
 
+            double[] colissions = Collisions(x, z);
+            x = colissions[0];
+            z = colissions[1];
+
             sphereTranslation.OffsetX += x;
             sphereTranslation.OffsetZ += z;
+        }
+
+        private double[] Collisions(double x, double z)
+        {
+            double distanceX = x;
+            double distanceZ = z;
+
+            double ballPosX = sphereTranslation.OffsetX + x;
+            double ballPosZ = sphereTranslation.OffsetZ + z;
+
+            foreach (Cube cube in walls)
+            {
+
+                double wallToBallDistanceX = Math.Abs(ballPosX - (cube.X + (cube.LX / 2)));
+                double wallToBallDistanceZ = Math.Abs(ballPosZ - (cube.Z + (cube.LZ / 2)));
+               
+ 
+                if(wallToBallDistanceX > (cube.LX/2) + ballRadius || wallToBallDistanceZ > (cube.LZ / 2) + ballRadius)
+                {
+                    continue; //not touching
+                }  
+                else if (wallToBallDistanceX <= (cube.LX / 2))
+                {
+                    distanceZ = 0;
+                }
+                else if (wallToBallDistanceZ <= (cube.LZ / 2))
+                {
+                    distanceX = 0;
+                }
+            }
+
+            return new double[] { distanceX, distanceZ };
         }
 
         private double MoveX()
