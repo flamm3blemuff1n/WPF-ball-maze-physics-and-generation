@@ -25,10 +25,11 @@ namespace Opdracht1
         public MainWindow()
         {
             InitializeComponent();
-            WallContainer.Children.Add(Cube(-50, 0, -50, 100, 2, 1)); //left wall
-            WallContainer.Children.Add(Cube(49, 0, -50, 100, 2, 1)); //right wall
-            WallContainer.Children.Add(Cube(-49, 0, 49, 1, 2, 98)); //front wall
-            WallContainer.Children.Add(Cube(-49, 0, -50, 1, 2, 98)); //back wall
+
+            WallContainer.Children.Add(new Cube(-51, 0, -51, 102, 2, 1).Model);
+            WallContainer.Children.Add(new Cube(50, 0, -51, 102, 2, 1).Model);
+            WallContainer.Children.Add(new Cube(-50, 0, -51, 1, 2, 100).Model);
+            WallContainer.Children.Add(new Cube(-50, 0, 50, 1, 2, 100).Model);
 
             int[,] wallCoords = new int[,] { 
                 { -40, 0, -49, 30, 2, 1 }, { -39, 0, -20, 1, 2, 40 }, { 15, 0, -40, 40, 2, 1 }, { -25, 0, -40, 1, 2, 40 }, 
@@ -41,80 +42,13 @@ namespace Opdracht1
 
             for(int i = 0; i < wallCoords.GetLength(0); i++)
             {
-                WallContainer.Children.Add(Cube(wallCoords[i,0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]));
+                WallContainer.Children.Add(new Cube(wallCoords[i,0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]).Model);
             }
 
             ModelVisual3D sphere = Sphere(-46, 2, 46, 2, 20, 30);
             SphereContainer.Children.Add(sphere);
 
             SimpleBallAnimation();
-            
-        }
-
-        public ModelVisual3D Cube(int x, int y, int z, double l, double h, double w)
-        {
-            Point3D p0 = new Point3D(x + 0, y + 0, z + 0);
-            Point3D p1 = new Point3D(x + w, y + 0, z + 0);
-            Point3D p2 = new Point3D(x + 0, y + h, z + 0);
-            Point3D p3 = new Point3D(x + w, y + h, z + 0);
-            Point3D p4 = new Point3D(x + 0, y + 0, z + l);
-            Point3D p5 = new Point3D(x + w, y + 0, z + l);
-            Point3D p6 = new Point3D(x + 0, y + h, z + l);
-            Point3D p7 = new Point3D(x + w, y + h, z + l);
-
-            Model3DGroup cube = new Model3DGroup();
-
-            //front
-            cube.Children.Add(Triangle(p0, p2, p3));
-            cube.Children.Add(Triangle(p3, p1, p0));
-            //left
-            cube.Children.Add(Triangle(p0, p4, p6));
-            cube.Children.Add(Triangle(p6, p2, p0));
-            //right
-            cube.Children.Add(Triangle(p1, p3, p7));
-            cube.Children.Add(Triangle(p7, p5, p1));
-            //bottom
-            cube.Children.Add(Triangle(p0, p4, p5));
-            cube.Children.Add(Triangle(p5, p1, p0));
-            //top
-            cube.Children.Add(Triangle(p2, p6, p7));
-            cube.Children.Add(Triangle(p7, p3, p2));
-            //back
-            cube.Children.Add(Triangle(p4, p5, p7));
-            cube.Children.Add(Triangle(p7, p6, p4));
-
-            return new ModelVisual3D{ Content = cube };
-        }
-
-        public Model3DGroup Triangle(Point3D p0, Point3D p1, Point3D p2)
-        {
-            MeshGeometry3D mesh = new MeshGeometry3D();
-            mesh.Positions.Add(p0);
-            mesh.Positions.Add(p1);
-            mesh.Positions.Add(p2);
-            mesh.TriangleIndices.Add(0);
-            mesh.TriangleIndices.Add(1);
-            mesh.TriangleIndices.Add(2);
-
-            Vector3D normals = GetNormals(p0, p1, p2);
-            mesh.Normals.Add(normals);
-            mesh.Normals.Add(normals);
-            mesh.Normals.Add(normals);
-
-            GeometryModel3D triangle = new GeometryModel3D(mesh, new DiffuseMaterial(new SolidColorBrush(Colors.Red)));
-            Model3DGroup group = new Model3DGroup();
-            group.Children.Add(triangle);
-            return group;
-        }
-
-        /*
-         * http://www.pererikstrandberg.se/blog/index.cgi?page=WpfCubeThreeDee
-         */
-        public static Vector3D GetNormals(Point3D p0, Point3D p1, Point3D p2)
-        {
-            Vector3D v0 = new Vector3D(p1.X - p0.X, p1.Y - p0.Y, p1.Z - p0.Z);
-            Vector3D v1 = new Vector3D(p2.X - p1.X, p2.Y - p1.Y, p2.Z - p1.Z);
-            return Vector3D.CrossProduct(v0, v1);
         }
 
         /*

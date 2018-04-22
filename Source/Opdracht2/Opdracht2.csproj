@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{279A6D05-D5B9-4FA0-95F1-10B3558785D1}</ProjectGuid>
+    <ProjectGuid>{AF96BCE6-DF0D-4B70-8553-CC7BFA77DF47}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Opdracht1</RootNamespace>
-    <AssemblyName>Opdracht1</AssemblyName>
+    <RootNamespace>Opdracht2</RootNamespace>
+    <AssemblyName>Opdracht2</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -62,7 +62,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cube.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -101,6 +100,12 @@
     <Content Include="images\wood1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Opdracht1\Opdracht1.csproj">
+      <Project>{279a6d05-d5b9-4fa0-95f1-10b3558785d1}</Project>
+      <Name>Opdracht1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
