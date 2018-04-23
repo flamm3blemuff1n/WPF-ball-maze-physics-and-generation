@@ -173,7 +173,7 @@ namespace Opdracht2
         }
 
         /*
-         * v(t) = v0 + a * t
+         * v = v0 + a * t
          */
         private double GetBallSpeed(double speed, double acceleration, double friction)
         {
