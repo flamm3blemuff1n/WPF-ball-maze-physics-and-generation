@@ -2,7 +2,6 @@
 using System;
 using System.Timers;
 using System.Collections.Generic;
-using System.Threading;
 using System.Windows;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
