@@ -16,40 +16,32 @@ namespace Opdracht2
     {
         private List<Cube> walls;
 
-        private const double GRAVITY = 981;
-
-        private const int PhysicsCalPerSec = 80;
+        //Calc
+        private const int CALCPERSEC = 80;
         private double frameInterval;
 
+        //Board
         private double boardAngleX = 0;
         private double boardAngleZ = 0;
 
-        private const double ballRadius = 2;
+        //Ball
+        private const double BALLRADIUS = 2;
+        private const double BALLMASS = 1;
         private TranslateTransform3D sphereTranslation;
         private double ballSpeedX = 0;
         private double ballSpeedZ = 0;
 
+        //Physics
+        private const double GRAVITY = 981;
         private const double STATIC_FRICTION_COEFFICIENT = 0.05; //metal on wood friction
         private const double KINETIC_FRICTION_COEFFICIENT = 0.025;
-        private const double COR = 0.45; // botsing coefficient voor aluminium
+        private const double COR = 0.45; // Aluminium 0.45; Iron 0.3; Titanium 0.85;
 
         public MainWindow()
         {
             InitializeComponent();
 
             walls = new List<Cube>();
-
-            /*
-             { -51, 0, -51, 102, 2, 1 }, { 50, 0, -51, 102, 2, 1 }, { -50, 0, -51, 1, 2, 100 }, { -50, 0, 50, 1, 2, 100 }, //4 sides
-                { -40, 0, -50, 30, 2, 1 }, { -39, 0, -20, 1, 2, 40 }, { 15, 0, -40, 40, 2, 1 }, { -25, 0, -40, 1, 2, 40 },
-                { 15, 0, 0, 1, 2, 25 }, { 40, 0, -50, 30, 2, 1 }, { 28, 0, -40, 30, 2, 1 }, { -25, 0, -39, 10, 2, 1 },
-                { 0, 0, -30, 10, 2, 1 }, { -40, 0, -10, 1, 2, 41}, {0, 0, 40, 1, 2, 40 }, {0, 0, 20, 20, 2, 1 },
-                {40, 0, 11, 30, 2, 1 }, { 0, 0, 10, 1, 2, 30}, { 20, 0, 10, 20, 2, 1}, {-20, 0, 10, 20, 2, 1 },
-                {-20, 0, 20, 1, 2, 10 }, { -40, 0, 40, 1, 2, 30}, {20, 0, 40, 10, 2, 1 }, { -49, 0, 29, 1, 2, 20},
-                { -40, 0, 10, 1, 2, 20}, {0, 0, 0, 1, 2, 20 }
-             
-          
-            */
 
             int[,] wallCoords = new int[,] {
                 { -51, 0, -51, 102, 2, 1 }, { 50, 0, -51, 102, 2, 1 }, { -50, 0, -51, 1, 2, 100 }, { -50, 0, 50, 1, 2, 100 }, //4 sides
@@ -68,7 +60,7 @@ namespace Opdracht2
                 WallContainer.Children.Add(wall.Model);
             }
 
-            GeometryModel3D sphere = new Sphere(0, 0, 0, ballRadius, 20, 30).Model;
+            GeometryModel3D sphere = new Sphere(0, 0, 0, BALLRADIUS, 20, 30).Model;
             SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
 
             Transform3DGroup sphereTransformations = new Transform3DGroup();
@@ -81,7 +73,7 @@ namespace Opdracht2
 
         private void StartGameTimer()
         {
-            frameInterval = 1 / (double)PhysicsCalPerSec;
+            frameInterval = 1 / (double)CALCPERSEC;
             int frameIntervalMs = (int)(this.frameInterval * 1000);
             var timer = new System.Timers.Timer
             {
@@ -128,48 +120,16 @@ namespace Opdracht2
                 double wallToBallDistanceX = Math.Abs(ballPosX - cube.X - (cube.LX/2));
                 double wallToBallDistanceZ = Math.Abs(ballPosZ - cube.Z - (cube.LZ/2));
 
-                if ((wallToBallDistanceX <= cube.LX/2 + ballRadius) && (ballPosZ + ballRadius-0.5) > cube.Z && (ballPosZ - ballRadius+0.5) < (cube.Z + cube.LZ))
+                if ((wallToBallDistanceX <= cube.LX/2 + BALLRADIUS) && (ballPosZ + BALLRADIUS-0.5) > cube.Z && (ballPosZ - BALLRADIUS+0.5) < (cube.Z + cube.LZ))
                 {
                     distanceX = 0;
-                    ballSpeedX = 0;
+                    //v = -e * v0
+                    ballSpeedX = -(COR * ballSpeedX);
                 }
-                if ((wallToBallDistanceZ <= cube.LZ / 2 + ballRadius) && (ballPosX + ballRadius-0.5) > cube.X && (ballPosX - ballRadius+0.5) < (cube.X + cube.LX))
+                if ((wallToBallDistanceZ <= cube.LZ / 2 + BALLRADIUS) && (ballPosX + BALLRADIUS-0.5) > cube.X && (ballPosX - BALLRADIUS+0.5) < (cube.X + cube.LX))
                 {
                     distanceZ = 0;
-                    ballSpeedZ = 0;
-                }
-            }
-
-            return new double[] { distanceX, distanceZ };
-        }
-
-        private double[] CollisionTest(double x, double z)
-        {
-            double distanceX = x;
-            double distanceZ = z;
-
-            double ballPosX = sphereTranslation.OffsetX + x;
-            double ballPosZ = sphereTranslation.OffsetZ + z;
-
-            foreach (Cube cube in walls)
-            {
-
-                double wallToBallDistanceX = Math.Abs(ballPosX - (cube.X + (cube.LX / 2)));
-                double wallToBallDistanceZ = Math.Abs(ballPosZ + (cube.Z + (cube.LZ / 2)));
-               
- 
-                if(wallToBallDistanceX > (cube.LX/2) + ballRadius || wallToBallDistanceZ > (cube.LZ / 2) + ballRadius)
-                {
-                }
-                else if (wallToBallDistanceX <= (cube.LX / 2))
-                {
-                    distanceZ = 0;
-                    ballSpeedZ = 0;
-                }
-                else if (wallToBallDistanceZ <= (cube.LZ / 2))
-                {
-                    distanceX = 0;
-                    ballSpeedX = 0;
+                    ballSpeedZ = -(COR * ballSpeedZ);
                 }
             }
 
@@ -179,8 +139,9 @@ namespace Opdracht2
         private double MoveX()
         {
             double a = -GetBallAcceleration(boardAngleZ);
-            int frictionDirection = ballSpeedX != 0 ? Math.Sign(ballSpeedX) : Math.Sign(a);
-            double friction = GetBallFriction(boardAngleZ) * frictionDirection;
+            int frictionDirection = ballSpeedX == 0 ? Math.Sign(a) : Math.Sign(ballSpeedX);
+            double frictionForce = GetBallFrictionForce(BALLMASS, boardAngleZ) * frictionDirection;
+            double friction = frictionForce / BALLMASS;
             double speed = GetBallSpeed(ballSpeedX, a, friction);
             ballSpeedX = speed;
             return GetDistance(friction, a, speed);
@@ -190,7 +151,8 @@ namespace Opdracht2
         {
             double a = GetBallAcceleration(boardAngleX);
             int frictionDirection = ballSpeedZ == 0 ? Math.Sign(a) : Math.Sign(ballSpeedZ);
-            double friction = GetBallFriction(boardAngleX) * frictionDirection;
+            double frictionForce = GetBallFrictionForce(BALLMASS, boardAngleX) * frictionDirection;
+            double friction = frictionForce / BALLMASS;
             double speed = GetBallSpeed(ballSpeedZ, a, friction);
             ballSpeedZ = speed;
             return GetDistance(friction, a, speed);
@@ -208,12 +170,14 @@ namespace Opdracht2
         /*
          * Choose friction coefficient based on ball movement, gravity is split in 2 components sin and cos because of angle
          * Fw = Fn * Coefficient
+         * Fn = m * a = m * 9.81
+         * Fw = m * 9.81 * Coefficient
          */
-        private double GetBallFriction(double angle)
+        private double GetBallFrictionForce(double mass, double angle)
         {
             double frictionCoefficient = KINETIC_FRICTION_COEFFICIENT; //MOVING
             if (ballSpeedX == 0 && ballSpeedZ == 0) frictionCoefficient = STATIC_FRICTION_COEFFICIENT; //NOT MOVING
-            return (GRAVITY * Math.Cos(angle * Math.PI / 180)) * frictionCoefficient; // Direction and friction according to gravity
+            return mass * (GRAVITY * Math.Cos(angle * Math.PI / 180)) * frictionCoefficient; // Direction and friction according to gravity
         }
 
         /*
