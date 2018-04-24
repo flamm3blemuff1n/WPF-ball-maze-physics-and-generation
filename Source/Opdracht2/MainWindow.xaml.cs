@@ -1,6 +1,8 @@
 ﻿using Opdracht1;
 using System;
+using System.Timers;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
@@ -54,7 +56,7 @@ namespace Opdracht2
                 WallContainer.Children.Add(wall.Model);
             }
 
-            GeometryModel3D sphere = new Sphere(0, 0, 0, 2, 20, 30).Model;
+            GeometryModel3D sphere = new Sphere(0, 0, 0, ballRadius, 20, 30).Model;
             SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
 
             Transform3DGroup sphereTransformations = new Transform3DGroup();
@@ -69,13 +71,23 @@ namespace Opdracht2
         {
             frameInterval = 1 / (double)FPS;
             int frameIntervalMs = (int)(this.frameInterval * 1000);
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(Frame);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, frameIntervalMs);
+            var timer = new System.Timers.Timer
+            {
+                Interval = frameInterval
+            };
+            timer.Elapsed += new ElapsedEventHandler(TimerElapsed);
             timer.Start();
         }
 
-        private void Frame(object sender, EventArgs e)
+        private void TimerElapsed(object sender, EventArgs e)
+        {
+            Dispatcher.Invoke((Action)delegate ()
+            {
+                Frame();
+            });
+        }
+
+        private void Frame()
         {
             double x = 0;
             double z = 0;
@@ -108,14 +120,7 @@ namespace Opdracht2
  
                 if(wallToBallDistanceX > (cube.LX/2) + ballRadius || wallToBallDistanceZ > (cube.LZ / 2) + ballRadius)
                 {
-                    continue; //not touching
-                }
-                else if (wallToBallDistanceZ <= (cube.LZ / 2) && wallToBallDistanceX <= (cube.LX / 2))
-                {
-                    distanceX = 0;
-                    distanceZ = 0;
-                    ballSpeedX = 0;
-                    ballSpeedZ = 0;
+                    //continue;
                 }
                 else if (wallToBallDistanceX <= (cube.LX / 2))
                 {
@@ -145,7 +150,7 @@ namespace Opdracht2
         private double MoveZ()
         {
             double a = GetBallAcceleration(boardAngleX);
-            int frictionDirection = ballSpeedZ != 0 ? Math.Sign(ballSpeedZ) : Math.Sign(a);
+            int frictionDirection = ballSpeedZ == 0 ? Math.Sign(a) : Math.Sign(ballSpeedZ);
             double friction = GetBallFriction(boardAngleX) * frictionDirection;
             double speed = GetBallSpeed(ballSpeedZ, a, friction);
             ballSpeedZ = speed;
