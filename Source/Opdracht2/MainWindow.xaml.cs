@@ -108,25 +108,23 @@ namespace Opdracht2
 
         private double[] Collision(double x, double z)
         {
-
             double distanceX = x;
             double distanceZ = z;
             double ballPosX = sphereTranslation.OffsetX + x;
             double ballPosZ = sphereTranslation.OffsetZ + z;
             
-
             foreach (Cube cube in walls)
             {
                 double wallToBallDistanceX = Math.Abs(ballPosX - cube.X - (cube.LX/2));
                 double wallToBallDistanceZ = Math.Abs(ballPosZ - cube.Z - (cube.LZ/2));
 
-                if ((wallToBallDistanceX <= cube.LX/2 + BALLRADIUS) && (ballPosZ + BALLRADIUS-0.5) > cube.Z && (ballPosZ - BALLRADIUS+0.5) < (cube.Z + cube.LZ))
+                if ((wallToBallDistanceX <= cube.LX/2 + BALLRADIUS) && (ballPosZ + BALLRADIUS-0.25) > cube.Z && (ballPosZ - BALLRADIUS+0.25) < (cube.Z + cube.LZ))
                 {
                     distanceX = 0;
                     //v = -e * v0
                     ballSpeedX = -(COR * ballSpeedX);
                 }
-                if ((wallToBallDistanceZ <= cube.LZ / 2 + BALLRADIUS) && (ballPosX + BALLRADIUS-0.5) > cube.X && (ballPosX - BALLRADIUS+0.5) < (cube.X + cube.LX))
+                if ((wallToBallDistanceZ <= cube.LZ / 2 + BALLRADIUS) && (ballPosX + BALLRADIUS-0.25) > cube.X && (ballPosX - BALLRADIUS+0.25) < (cube.X + cube.LX))
                 {
                     distanceZ = 0;
                     ballSpeedZ = -(COR * ballSpeedZ);
