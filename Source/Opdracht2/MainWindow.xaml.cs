@@ -18,7 +18,7 @@ namespace Opdracht2
 
         private const double GRAVITY = 981;
 
-        private const int FPS = 100;
+        private const int PhysicsCalPerSec = 80;
         private double frameInterval;
 
         private double boardAngleX = 0;
@@ -38,6 +38,18 @@ namespace Opdracht2
             InitializeComponent();
 
             walls = new List<Cube>();
+
+            /*
+             { -51, 0, -51, 102, 2, 1 }, { 50, 0, -51, 102, 2, 1 }, { -50, 0, -51, 1, 2, 100 }, { -50, 0, 50, 1, 2, 100 }, //4 sides
+                { -40, 0, -50, 30, 2, 1 }, { -39, 0, -20, 1, 2, 40 }, { 15, 0, -40, 40, 2, 1 }, { -25, 0, -40, 1, 2, 40 },
+                { 15, 0, 0, 1, 2, 25 }, { 40, 0, -50, 30, 2, 1 }, { 28, 0, -40, 30, 2, 1 }, { -25, 0, -39, 10, 2, 1 },
+                { 0, 0, -30, 10, 2, 1 }, { -40, 0, -10, 1, 2, 41}, {0, 0, 40, 1, 2, 40 }, {0, 0, 20, 20, 2, 1 },
+                {40, 0, 11, 30, 2, 1 }, { 0, 0, 10, 1, 2, 30}, { 20, 0, 10, 20, 2, 1}, {-20, 0, 10, 20, 2, 1 },
+                {-20, 0, 20, 1, 2, 10 }, { -40, 0, 40, 1, 2, 30}, {20, 0, 40, 10, 2, 1 }, { -49, 0, 29, 1, 2, 20},
+                { -40, 0, 10, 1, 2, 20}, {0, 0, 0, 1, 2, 20 }
+             
+          
+            */
 
             int[,] wallCoords = new int[,] {
                 { -51, 0, -51, 102, 2, 1 }, { 50, 0, -51, 102, 2, 1 }, { -50, 0, -51, 1, 2, 100 }, { -50, 0, 50, 1, 2, 100 }, //4 sides
@@ -69,7 +81,7 @@ namespace Opdracht2
 
         private void StartGameTimer()
         {
-            frameInterval = 1 / (double)FPS;
+            frameInterval = 1 / (double)PhysicsCalPerSec;
             int frameIntervalMs = (int)(this.frameInterval * 1000);
             var timer = new System.Timers.Timer
             {
@@ -89,13 +101,12 @@ namespace Opdracht2
 
         private void Frame()
         {
-            double x = 0;
-            double z = 0;
+            double x = 0, z = 0;
 
             x = MoveX();
             z = MoveZ();
-
-            double[] colissions = Collisions(x, z);
+            
+            double[] colissions = Collision(x, z);
             x = colissions[0];
             z = colissions[1];
 
@@ -103,7 +114,36 @@ namespace Opdracht2
             sphereTranslation.OffsetZ += z;
         }
 
-        private double[] Collisions(double x, double z)
+        private double[] Collision(double x, double z)
+        {
+
+            double distanceX = x;
+            double distanceZ = z;
+            double ballPosX = sphereTranslation.OffsetX + x;
+            double ballPosZ = sphereTranslation.OffsetZ + z;
+            
+
+            foreach (Cube cube in walls)
+            {
+                double wallToBallDistanceX = Math.Abs(ballPosX - cube.X - (cube.LX/2));
+                double wallToBallDistanceZ = Math.Abs(ballPosZ - cube.Z - (cube.LZ/2));
+
+                if ((wallToBallDistanceX <= cube.LX/2 + ballRadius) && (ballPosZ + ballRadius-0.5) > cube.Z && (ballPosZ - ballRadius+0.5) < (cube.Z + cube.LZ))
+                {
+                    distanceX = 0;
+                    ballSpeedX = 0;
+                }
+                if ((wallToBallDistanceZ <= cube.LZ / 2 + ballRadius) && (ballPosX + ballRadius-0.5) > cube.X && (ballPosX - ballRadius+0.5) < (cube.X + cube.LX))
+                {
+                    distanceZ = 0;
+                    ballSpeedZ = 0;
+                }
+            }
+
+            return new double[] { distanceX, distanceZ };
+        }
+
+        private double[] CollisionTest(double x, double z)
         {
             double distanceX = x;
             double distanceZ = z;
@@ -115,12 +155,11 @@ namespace Opdracht2
             {
 
                 double wallToBallDistanceX = Math.Abs(ballPosX - (cube.X + (cube.LX / 2)));
-                double wallToBallDistanceZ = Math.Abs(ballPosZ - (cube.Z + (cube.LZ / 2)));
+                double wallToBallDistanceZ = Math.Abs(ballPosZ + (cube.Z + (cube.LZ / 2)));
                
  
                 if(wallToBallDistanceX > (cube.LX/2) + ballRadius || wallToBallDistanceZ > (cube.LZ / 2) + ballRadius)
                 {
-                    //continue;
                 }
                 else if (wallToBallDistanceX <= (cube.LX / 2))
                 {
@@ -167,7 +206,7 @@ namespace Opdracht2
         }
 
         /*
-         * Choose friction coefficient based onm ball movement, gravity is split in 2 components sin and cos because of angle
+         * Choose friction coefficient based on ball movement, gravity is split in 2 components sin and cos because of angle
          * Fw = Fn * Coefficient
          */
         private double GetBallFriction(double angle)
