@@ -32,7 +32,7 @@ namespace Opdracht2
         private double ballSpeedZ = 0;
 
         //Physics
-        private const double GRAVITY = 981;
+        private const double GRAVITY = 981; //9.81 * 100 for m to cm, since 1 coordinate space is cm not m.
         private const double STATIC_FRICTION_COEFFICIENT = 0.05; //metal on wood friction
         private const double KINETIC_FRICTION_COEFFICIENT = 0.025;
         private const double COR = 0.45; // Aluminium 0.45; Iron 0.3; Titanium 0.85;
