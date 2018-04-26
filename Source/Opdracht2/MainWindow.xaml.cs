@@ -118,13 +118,13 @@ namespace Opdracht2
                 double wallToBallDistanceX = Math.Abs(ballPosX - cube.X - (cube.LX/2));
                 double wallToBallDistanceZ = Math.Abs(ballPosZ - cube.Z - (cube.LZ/2));
 
-                if ((wallToBallDistanceX <= cube.LX/2 + BALLRADIUS) && (ballPosZ + BALLRADIUS-0.25) > cube.Z && (ballPosZ - BALLRADIUS+0.25) < (cube.Z + cube.LZ))
+                if ((wallToBallDistanceX <= cube.LX/2 + BALLRADIUS) && (ballPosZ + BALLRADIUS-0.5) > cube.Z && (ballPosZ - BALLRADIUS+0.5) < (cube.Z + cube.LZ))
                 {
                     distanceX = 0;
                     //v = -e * v0
                     ballSpeedX = -(COR * ballSpeedX);
                 }
-                if ((wallToBallDistanceZ <= cube.LZ / 2 + BALLRADIUS) && (ballPosX + BALLRADIUS-0.25) > cube.X && (ballPosX - BALLRADIUS+0.25) < (cube.X + cube.LX))
+                if ((wallToBallDistanceZ <= cube.LZ / 2 + BALLRADIUS) && (ballPosX + BALLRADIUS-0.5) > cube.X && (ballPosX - BALLRADIUS+0.5) < (cube.X + cube.LX))
                 {
                     distanceZ = 0;
                     ballSpeedZ = -(COR * ballSpeedZ);
@@ -140,9 +140,9 @@ namespace Opdracht2
             int frictionDirection = ballSpeedX == 0 ? Math.Sign(a) : Math.Sign(ballSpeedX);
             double frictionForce = GetBallFrictionForce(BALLMASS, boardAngleZ) * frictionDirection;
             double friction = frictionForce / BALLMASS;
-            double speed = GetBallSpeed(ballSpeedX, a, friction);
+            double speed = GetBallSpeed(ballSpeedX, a, friction, frameInterval);
             ballSpeedX = speed;
-            return GetDistance(friction, a, speed);
+            return GetDistance(friction, a, speed, frameInterval);
         }
 
         private double MoveZ()
@@ -151,9 +151,9 @@ namespace Opdracht2
             int frictionDirection = ballSpeedZ == 0 ? Math.Sign(a) : Math.Sign(ballSpeedZ);
             double frictionForce = GetBallFrictionForce(BALLMASS, boardAngleX) * frictionDirection;
             double friction = frictionForce / BALLMASS;
-            double speed = GetBallSpeed(ballSpeedZ, a, friction);
+            double speed = GetBallSpeed(ballSpeedZ, a, friction, frameInterval);
             ballSpeedZ = speed;
-            return GetDistance(friction, a, speed);
+            return GetDistance(friction, a, speed, frameInterval);
         }
 
         /*
@@ -181,17 +181,17 @@ namespace Opdracht2
         /*
          * v = v0 + a * t
          */
-        private double GetBallSpeed(double speed, double acceleration, double friction)
+        private double GetBallSpeed(double speed, double acceleration, double friction, double time)
         {
-            return speed + (acceleration - friction) * frameInterval;
+            return speed + (acceleration - friction) * time;
         }
 
         /*
          * s = (v0 * t) + (1/2 * a * t^2)
          */
-        private double GetDistance(double friction, double a, double speed)
+        private double GetDistance(double friction, double a, double speed, double time)
         {
-            return (speed * frameInterval) + ((1 / 2) * a * Math.Pow(frameInterval, 2));
+            return (speed * time) + ((1 / 2) * a * Math.Pow(time, 2));
         }
 
         private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
