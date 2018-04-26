@@ -3,7 +3,6 @@ D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\MainWindow.g.cs
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\App.g.cs
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2_Content.g.cs
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2_MarkupCompile.cache
-D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2_MarkupCompile.lref
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\images\ball.jpg
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\images\wood1.jpg
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Opdracht2.exe.config

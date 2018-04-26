@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Opdracht2"
         mc:Ignorable="d"
         Title="MainWindow" Width="1920" Height="1080"
-        x:Name="Window" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        x:Name="Window" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        KeyDown="Window_KeyDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -16,10 +16,10 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch">
             <Slider Width="500" Minimum="-15" Maximum="15" VerticalAlignment="Top" 
                     Margin="40,28,0,0" Name="Slider1" 
-                    ValueChanged="Slider1_ValueChanged"/>
+                    ValueChanged="Slider1_ValueChanged" Focusable="False"/>
             <Slider Width="500" Minimum="-15" Maximum="15" VerticalAlignment="Top" 
                     Margin="40,28,0,0" Name="Slider2" 
-                    ValueChanged="Slider2_ValueChanged"/>
+                    ValueChanged="Slider2_ValueChanged" Focusable="False"/>
         </StackPanel>
 
         <Viewport3D x:Name="viewport" Grid.Row="1" RenderOptions.CachingHint="Cache" ClipToBounds="True" RenderTransformOrigin="0.5,0.5">
