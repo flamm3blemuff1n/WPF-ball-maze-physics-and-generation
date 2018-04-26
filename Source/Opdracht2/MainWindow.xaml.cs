@@ -16,6 +16,7 @@ namespace Opdracht2
         private List<Cube> walls;
 
         //Calc
+        private Timer timer;
         private const int CALCPERSEC = 80;
         private double frameInterval;
 
@@ -27,6 +28,7 @@ namespace Opdracht2
         private const double BALLRADIUS = 2;
         private const double BALLMASS = 1;
         private TranslateTransform3D sphereTranslation;
+        private GeometryModel3D sphere;
         private double ballSpeedX = 0;
         private double ballSpeedZ = 0;
 
@@ -59,7 +61,7 @@ namespace Opdracht2
                 WallContainer.Children.Add(wall.Model);
             }
 
-            GeometryModel3D sphere = new Sphere(0, 0, 0, BALLRADIUS, 20, 30).Model;
+            sphere = new Sphere(0, 0, 0, BALLRADIUS, 20, 30).Model;
             SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
 
             Transform3DGroup sphereTransformations = new Transform3DGroup();
@@ -67,19 +69,18 @@ namespace Opdracht2
             sphereTransformations.Children.Add(sphereTranslation);
             sphere.Transform = sphereTransformations;
 
-            StartGameTimer();
+            SetGameTimer();
         }
 
-        private void StartGameTimer()
+        private void SetGameTimer()
         {
             frameInterval = 1 / (double)CALCPERSEC;
             int frameIntervalMs = (int)(this.frameInterval * 1000);
-            var timer = new System.Timers.Timer
+            timer = new Timer
             {
                 Interval = frameInterval
             };
             timer.Elapsed += new ElapsedEventHandler(TimerElapsed);
-            timer.Start();
         }
 
         private void TimerElapsed(object sender, EventArgs e)
@@ -218,6 +219,29 @@ namespace Opdracht2
             Board.Transform = myTransform3DGroup;
             WallContainer.Transform = myTransform3DGroup;
             SphereContainer.Transform = myTransform3DGroup;
+        }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Start();
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeBoardRotation(0, 0);
+            Transform3DGroup sphereTransformations = new Transform3DGroup();
+            sphereTranslation = new TranslateTransform3D(45, 2, 45);
+            sphereTransformations.Children.Add(sphereTranslation);
+            sphere.Transform = sphereTransformations;
+            Slider1.Value = 0;
+            Slider2.Value = 0;
+            ballSpeedX = 0;
+            ballSpeedZ = 0;
         }
     }
 }
