@@ -75,6 +75,7 @@
         </Viewport3D>
         <Button Content="Start" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="StartButton_Click"/>
         <Button Content="Stop" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="StopButton_Click"/>
-        <Button Content="Reset" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="ResetButton_Click"/>
+        <Button Content="Generate Maze" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="MazeButton_Click"/>
+        <Button Content="Reset" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="ResetButton_Click"/>
     </Grid>
 </Window>
