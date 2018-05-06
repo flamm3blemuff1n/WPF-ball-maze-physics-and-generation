@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using System.Windows.Input;
+using Library;
 
 namespace Opdracht2
 {
@@ -14,6 +15,8 @@ namespace Opdracht2
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Maze
+        private Maze maze;
         private List<Cube> walls;
 
         //Calc
@@ -43,38 +46,8 @@ namespace Opdracht2
         {
             InitializeComponent();
 
-            walls = new List<Cube>();
-
-            /*  { -51, 0, -51, 102, 2, 1 }, { 50, 0, -51, 102, 2, 1 }, { -50, 0, -51, 1, 2, 100 }, { -50, 0, 50, 1, 2, 100 }, //4 sides
-                { -35, 0, -50, 5, 2, 5 }, { 5, 0, -50, 5, 2, 5 }, { -45, 0, -45, 5, 2, 5 }, { -35, 0, -45, 5, 2, 5 }, 
-                { -30, 0, -45, 5, 2, 5 }, { -25, 0, -45, 5, 2, 5 }, { -15, 0, -45, 5, 2, 5 }, { -10, 0, -45, 5, 2, 5 }, 
-                { -5, 0, -45, 5, 2, 5 }, { 0, 0, -45, 5, 2, 5 }, { 5, 0, -45, 5, 2, 5 }, { 15, 0, -45, 5, 2, 5 }, 
-                { 20, 0, -45, 5, 2, 5 }, { 25, 0, -45, 5, 2, 5 }, { 30, 0, -45, 5, 2, 5 }, { 35, 0, -45, 5, 2, 5 }, 
-                { 40, 0, -45, 5, 2, 5 }, { 40, 0, -40, 5, 2, 5 }, { 5, 0, -40, 5, 2, 5 }, { -15, 0, -40, 5, 2, 5 },
-                { 40, 0, -35, 5, 2, 5 }, { 30, 0, -35, 5, 2, 5 }, { 25, 0, -35, 5, 2, 5 }, { 20, 0, -35, 5, 2, 5 },
-                { 15, 0, -35, 5, 2, 5 }, { 10, 0, -35, 5, 2, 5 }, { 5, 0, -35, 5, 2, 5 }, { -5, 0, -35, 5, 2, 5 },
-                { -15, 0, -35, 5, 2, 5 }, { -20, 0, -35, 5, 2, 5 }, { -25, 0, -35, 5, 2, 5 }, { -30, 0, -35, 5, 2, 5 },
-                { -35, 0, -35, 5, 2, 5 }, { -40, 0, -35, 5, 2, 5 }, { -45, 0, -35, 5, 2, 5 }, { 40, 0, -30, 5, 2, 5 },
-                { -5, 0, -30, 5, 2, 5 }, { -35, 0, -30, 5, 2, 5 }, { 40, 0, -25, 5, 2, 5 }, { 35, 0, -25, 5, 2, 5 },
-                { 30, 0, -25, 5, 2, 5 }, { 25, 0, -25, 5, 2, 5 }, { 15, 0, -25, 5, 2, 5 }, { 10, 0, -25, 5, 2, 5 },
-                { 5, 0, -25, 5, 2, 5 }, { 0, 0, -25, 5, 2, 5 }, { -5, 0, -25, 5, 2, 5 }, { 0, 0, -25, 5, 2, 5 },             
-             */
-            int[,] wallCoords = new int[,] {
-                { -51, 0, -51, 102, 2, 1 }, { 50, 0, -51, 102, 2, 1 }, { -50, 0, -51, 1, 2, 100 }, { -50, 0, 50, 1, 2, 100 }, //4 sides
-                { -40, 0, -50, 31, 2, 1 }, { -39, 0, -20, 1, 2, 40 }, { 15, 0, -40, 40, 2, 1 }, { -25, 0, -40, 1, 2, 40 },
-                { 15, 0, 0, 1, 2, 25 }, { 40, 0, -50, 30, 2, 1 }, { 28, 0, -40, 30, 2, 1 }, { -25, 0, -39, 10, 2, 1 },
-                { 0, 0, -30, 10, 2, 1 }, { -40, 0, -10, 1, 2, 41}, {0, 0, 40, 1, 2, 40 }, {0, 0, 20, 20, 2, 1 },
-                {40, 0, 11, 30, 2, 1 }, { 0, 0, 10, 1, 2, 30}, { 20, 0, 10, 20, 2, 1}, {-20, 0, 10, 20, 2, 1 },
-                {-20, 0, 20, 1, 2, 10 }, { -40, 0, 40, 1, 2, 30}, {20, 0, 40, 10, 2, 1 }, { -50, 0, 29, 1, 2, 20},
-                { -40, 0, 10, 1, 2, 20}, {0, 0, 0, 1, 2, 20 }
-            };
-
-            for (int i = 0; i < wallCoords.GetLength(0); i++)
-            {
-                Cube wall = new Cube(wallCoords[i, 0], wallCoords[i, 1], wallCoords[i, 2], wallCoords[i, 3], wallCoords[i, 4], wallCoords[i, 5]);
-                walls.Add(wall);
-                WallContainer.Children.Add(wall.Model);
-            }
+            maze = new Maze(10, WallContainer);
+            this.walls = maze.Walls;
 
             sphere = new Sphere(0, 0, 0, BALLRADIUS, 20, 30).Model;
             SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
@@ -241,6 +214,7 @@ namespace Opdracht2
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            this.maze.GenerateRecursiveBacktrack();
             timer.Start();
         }
 
@@ -260,6 +234,8 @@ namespace Opdracht2
             Slider2.Value = 0;
             ballSpeedX = 0;
             ballSpeedZ = 0;
+            this.maze = new Maze(10, WallContainer);
+            this.walls = maze.Walls;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

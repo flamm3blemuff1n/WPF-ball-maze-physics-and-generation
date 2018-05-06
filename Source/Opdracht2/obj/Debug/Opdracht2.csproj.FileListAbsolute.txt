@@ -8,9 +8,6 @@ D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\images\wood1.jp
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Opdracht2.exe.config
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Opdracht2.exe
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Opdracht2.pdb
-D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Opdracht1.exe
-D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Opdracht1.pdb
-D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Opdracht1.exe.config
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\MainWindow.baml
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2.g.resources
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2.Properties.Resources.resources
@@ -19,3 +16,5 @@ D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2.cspro
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2.csproj.CopyComplete
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2.exe
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\obj\Debug\Opdracht2.pdb
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Library.dll
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht2\bin\Debug\Library.pdb

@@ -10,16 +10,16 @@ namespace Opdracht1
 {
     public class Cube
     {
-        public int X { get; }
-        public int Y { get; }
-        public int Z { get; }
+        public double X { get; }
+        public double Y { get; }
+        public double Z { get; }
         public double LZ { get; }
         public double LY { get; }
         public double LX { get; }
 
         public ModelVisual3D Model { get; private set; }
 
-        public Cube(int x, int y, int z, double pZLength, double pYLength, double pXLength)
+        public Cube(double x, double y, double z, double pZLength, double pYLength, double pXLength)
         {
             this.X = x;
             this.Y = y;

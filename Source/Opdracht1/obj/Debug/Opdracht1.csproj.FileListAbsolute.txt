@@ -31,3 +31,6 @@ D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\images\wood1.jp
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1_Content.g.cs
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\images\ball.jpg
 D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1.csprojResolveAssemblyReference.cache
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\Library.dll
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\bin\Debug\Library.pdb
+D:\Projects\2ICT4\1718AAPStevenImpens\Source\Opdracht1\obj\Debug\Opdracht1.csproj.CopyComplete
