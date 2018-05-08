@@ -43,7 +43,7 @@ namespace Opdracht2
 
             maze = new Maze(10, WallContainer);
             this.walls = maze.Walls;
-            maze.GenerateRecursiveBacktrack();
+            //maze.GenerateRecursiveBacktrack();
 
             sphere = new Sphere(0, 0, 0, BALLRADIUS, 20, 30).Model;
             SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
