@@ -7,6 +7,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using System.Windows.Input;
 using Library;
+using System.Windows.Media;
 
 namespace Opdracht2
 {
@@ -32,7 +33,6 @@ namespace Opdracht2
         private double frameInterval;
 
         //Ball
-        private const double BALLRADIUS = 2;
         private const double BALLMASS = 1;
         private TranslateTransform3D sphereTranslation;
         private GeometryModel3D sphere;
@@ -41,22 +41,13 @@ namespace Opdracht2
         {
             InitializeComponent();
 
-            maze = new Maze(10, WallContainer);
-            this.walls = maze.Walls;
-            //maze.GenerateRecursiveBacktrack();
+            int cells = Int32.Parse(CellsTextBox.Text);
+            SetMaze(cells);
 
-            sphere = new Sphere(0, 0, 0, BALLRADIUS, 20, 30).Model;
-            SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
-
-            Transform3DGroup sphereTransformations = new Transform3DGroup();
-            sphereTranslation = new TranslateTransform3D(45, 2, 45);
-            sphereTransformations.Children.Add(sphereTranslation);
-            sphere.Transform = sphereTransformations;
-
+            double radius = double.Parse(BallRadiusTextBox.Text);
+            SetBall(radius);
             SetGameTimer();
-
-            this.physics = new Physics(sphereTranslation, BALLRADIUS, BALLMASS, frameInterval);
-            this.physics.UpdateWalls(walls);
+            SetPhysics(radius, BALLMASS, frameInterval, sphereTranslation);
         }
 
         /*
@@ -79,6 +70,30 @@ namespace Opdracht2
             {
                 this.physics.Frame();
             });
+        }
+
+        private void SetBall(double radius)
+        {
+            sphere = new Sphere(0, 0, 0, radius, 20, 30).Model;
+            SphereContainer.Children.Add(new ModelVisual3D { Content = sphere });
+
+            Transform3DGroup sphereTransformations = new Transform3DGroup();
+            sphereTranslation = new TranslateTransform3D(50-radius*1.5, radius, 50-radius*1.5);
+            sphereTransformations.Children.Add(sphereTranslation);
+            sphere.Transform = sphereTransformations;
+        }
+
+        private void SetPhysics(double ballRadius, double ballMass, double frameInterval, TranslateTransform3D translateTransform)
+        {
+            this.physics = new Physics(translateTransform, ballRadius, ballMass, frameInterval);
+            this.physics.UpdateWalls(walls);
+        }
+
+        private void SetMaze(int cells)
+        {
+            maze = new Maze(cells, WallContainer);
+            this.walls = maze.Walls;
+            maze.GenerateRecursiveBacktrack();
         }
 
         private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -122,23 +137,38 @@ namespace Opdracht2
 
         private void MazeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.maze = new Maze(10, WallContainer);
-            this.walls = maze.Walls;
-            this.maze.GenerateRecursiveBacktrack();
-            this.physics.UpdateWalls(walls);
+            CellsTextBox.BorderBrush = Brushes.Black;
+
+            try
+            {
+                int cells = Int32.Parse(CellsTextBox.Text);
+                if (cells > 0)
+                {
+                    SetMaze(cells);
+                    this.physics.UpdateWalls(walls);
+                }
+                else
+                {
+                    CellsTextBox.BorderBrush = Brushes.Red;
+                }
+            }
+            catch(FormatException format)
+            {
+                Console.WriteLine(format);
+                CellsTextBox.BorderBrush = Brushes.Red;
+            }
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             ChangeBoardRotation(0, 0);
-            Transform3DGroup sphereTransformations = new Transform3DGroup();
-            sphereTranslation = new TranslateTransform3D(45, 2, 45);
-            sphereTransformations.Children.Add(sphereTranslation);
-            sphere.Transform = sphereTransformations;
             Slider1.Value = 0;
             Slider2.Value = 0;
-            this.physics.UpdateTranslation(sphereTranslation);
-            this.physics.StopMovement();
+
+            SphereContainer.Children.Clear();
+            double radius = double.Parse(BallRadiusTextBox.Text);
+            SetBall(radius);
+            SetPhysics(radius, BALLMASS, frameInterval, sphereTranslation);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

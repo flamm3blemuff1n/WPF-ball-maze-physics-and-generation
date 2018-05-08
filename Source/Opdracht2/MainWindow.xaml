@@ -12,13 +12,13 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="15*"></RowDefinition>
         </Grid.RowDefinitions>
-        <GridSplitter Grid.Row="0" VerticalAlignment="Top"></GridSplitter>
+        <GridSplitter Grid.Row="0" VerticalAlignment="Top"/>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch">
             <Slider Width="500" Minimum="-15" Maximum="15" VerticalAlignment="Top" 
-                    Margin="40,28,0,0" Name="Slider1" 
+                    Margin="40,28,0,0" x:Name="Slider1" 
                     ValueChanged="Slider1_ValueChanged" Focusable="False"/>
             <Slider Width="500" Minimum="-15" Maximum="15" VerticalAlignment="Top" 
-                    Margin="40,28,0,0" Name="Slider2" 
+                    Margin="40,28,0,0" x:Name="Slider2" 
                     ValueChanged="Slider2_ValueChanged" Focusable="False"/>
         </StackPanel>
 
@@ -30,8 +30,7 @@
                                    UpDirection="0,1,0" 
                                    NearPlaneDistance="1"  
                                    Position="0,120,-120" 
-                                   FieldOfView="75">
-                </PerspectiveCamera>
+                                   FieldOfView="75"/>
             </Viewport3D.Camera>
 
             <!-- BOARD -->
@@ -41,7 +40,7 @@
                         <GeometryModel3D.Geometry>
                             <MeshGeometry3D Positions="51,-2,-51 -51,-2,-51 51,0,-51 -51,0,-51 51,-2,51 -51,-2,51 51,0,51 -51,0,51" 
                                             TriangleIndices="0,1,3 3,2,0 1,5,7 7,3,1 5,4,6 6,7,5 4,0,2 2,6,4 2,3,7 7,6,2 4,0,1 1,5,4" 
-                                            Normals="0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0"
+                                            Normals="0,1,0 0,1,0 0,1,0 0,1,0 0,1,0 0,1,0 0,1,0 0,1,0"
                                             TextureCoordinates="0,0 0,0 0,0 0,1 0,0 0,0 1,0 1,1"/>
                         </GeometryModel3D.Geometry>
                         <GeometryModel3D.Material>
@@ -67,15 +66,20 @@
                 <ModelVisual3D.Content>
                     <Model3DGroup>
                         <AmbientLight Color="#333333"/>
-                        <DirectionalLight Color="#EEEEEE" Direction="0 -1 0">
-                        </DirectionalLight>
+                        <DirectionalLight Color="#EEEEEE" Direction="0 -1 0"/>
                     </Model3DGroup>
                 </ModelVisual3D.Content>
             </ModelVisual3D>
         </Viewport3D>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="StartButton_Click"/>
-        <Button Content="Stop" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="StopButton_Click"/>
-        <Button Content="Generate Maze" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="MazeButton_Click"/>
-        <Button Content="Reset" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="ResetButton_Click"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="146" Margin="6,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="85" Margin="6,151,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="StartButton_Click"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="StopButton_Click"/>
+        <Button Content="Generate Maze" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="MazeButton_Click"/>
+        <Button Content="Reset" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="ResetButton_Click"/>
+        <Label Content="Cell Amount 1 side:" HorizontalAlignment="Left" Margin="10,153,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <TextBox x:Name="CellsTextBox" HorizontalAlignment="Left" Height="22" Margin="10,179,0,0" Grid.Row="1" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="108"/>
+        <Label Content="Ball Radius:" HorizontalAlignment="Left" Margin="10,63,0,0" Grid.Row="1" VerticalAlignment="Top" Width="108"/>
+        <TextBox x:Name="BallRadiusTextBox" HorizontalAlignment="Left" Height="22" Margin="10,89,0,0" Grid.Row="1" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="108"/>
     </Grid>
 </Window>

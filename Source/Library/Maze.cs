@@ -27,6 +27,8 @@ namespace Library
             this.wallContainer.Children.Clear();
             CreateWalls();
             CreateCells();
+
+            Console.WriteLine("NEEEEEEEEEEEEEEEEEW");
         }
 
         private void CreateWalls()
@@ -49,8 +51,10 @@ namespace Library
             {
                 for (int j = 0; j < CELLS; j++)
                 {
-                    double x = -50 + ((i + 1) * cellWidth) + (i * 1);
                     double z = -50 + (j * (cellWidth + 1));
+                    double x = -50 + ((i + 1) * cellWidth) + (i * 1);
+
+                    Console.WriteLine(x + "," + z);
 
                     Cube wall = new Cube(x, 0, z, cellWidth+1, 2, 1);
                     wallsWithId.Add(x + "," + z, wall);
@@ -65,6 +69,8 @@ namespace Library
                 {
                     double z = -50 + ((i + 1) * cellWidth) + (i * 1);
                     double x = -50 + (j * (cellWidth + 1));
+
+                    Console.WriteLine(x + "," + z);
 
                     Cube wall = new Cube(x, 0, z, 1, 2, cellWidth+1);
                     wallsWithId.Add(x + "," + z, wall);
@@ -188,8 +194,10 @@ namespace Library
         {
             if (direction == DirectionType.up)
             {
-                double z = -50 + ((cell.Z + 1) * cellWidth + (cell.Z * 1));
+                double z = -50 + ((cell.Z + 1) * cellWidth) + (cell.Z * 1);
                 double x = -50 + (cell.X * (cellWidth + 1));
+
+                Console.WriteLine("REMOVE; " + x + "," + z);
 
                 wallContainer.Children.Remove(wallsWithId[x + "," + z].Model);
                 Walls.Remove(wallsWithId[x + "," + z]);
@@ -197,7 +205,9 @@ namespace Library
             else if (direction == DirectionType.left)
             {
                 double z = -50 + (cell.Z * (cellWidth + 1));
-                double x = -50 + ((cell.X + 1) * cellWidth + (cell.X * 1));
+                double x = -50 + ((cell.X + 1) * cellWidth) + (cell.X * 1);
+
+                Console.WriteLine("REMOVE; " + x + "," + z);
 
                 wallContainer.Children.Remove(wallsWithId[x + "," + z].Model);
                 Walls.Remove(wallsWithId[x + "," + z]);
