@@ -138,7 +138,6 @@ namespace Opdracht2
         private void MazeButton_Click(object sender, RoutedEventArgs e)
         {
             CellsTextBox.BorderBrush = Brushes.Black;
-
             try
             {
                 int cells = Int32.Parse(CellsTextBox.Text);
@@ -152,23 +151,31 @@ namespace Opdracht2
                     CellsTextBox.BorderBrush = Brushes.Red;
                 }
             }
-            catch(FormatException format)
+            catch(FormatException)
             {
-                Console.WriteLine(format);
                 CellsTextBox.BorderBrush = Brushes.Red;
             }
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            ChangeBoardRotation(0, 0);
-            Slider1.Value = 0;
-            Slider2.Value = 0;
+            BallRadiusTextBox.BorderBrush = Brushes.Black;
+            try
+            {
+                double radius = double.Parse(BallRadiusTextBox.Text);
 
-            SphereContainer.Children.Clear();
-            double radius = double.Parse(BallRadiusTextBox.Text);
-            SetBall(radius);
-            SetPhysics(radius, BALLMASS, frameInterval, sphereTranslation);
+                ChangeBoardRotation(0, 0);
+                Slider1.Value = 0;
+                Slider2.Value = 0;
+
+                SphereContainer.Children.Clear();
+                SetBall(radius);
+                SetPhysics(radius, BALLMASS, frameInterval, sphereTranslation);
+            }
+            catch(FormatException)
+            {
+                BallRadiusTextBox.BorderBrush = Brushes.Red;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

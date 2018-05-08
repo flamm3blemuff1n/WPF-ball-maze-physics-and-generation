@@ -77,7 +77,7 @@
         <Button Content="Stop" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="StopButton_Click"/>
         <Button Content="Generate Maze" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="MazeButton_Click"/>
         <Button Content="Reset" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="108" Grid.Row="1" Height="24" Click="ResetButton_Click"/>
-        <Label Content="Cell Amount 1 side:" HorizontalAlignment="Left" Margin="10,153,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Cell Amount 1 side:" HorizontalAlignment="Left" Margin="10,153,0,0" Grid.Row="1" VerticalAlignment="Top" Focusable="False"/>
         <TextBox x:Name="CellsTextBox" HorizontalAlignment="Left" Height="22" Margin="10,179,0,0" Grid.Row="1" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="108"/>
         <Label Content="Ball Radius:" HorizontalAlignment="Left" Margin="10,63,0,0" Grid.Row="1" VerticalAlignment="Top" Width="108"/>
         <TextBox x:Name="BallRadiusTextBox" HorizontalAlignment="Left" Height="22" Margin="10,89,0,0" Grid.Row="1" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="108"/>
