@@ -29,6 +29,9 @@ namespace Library
             CreateCells();
         }
 
+        /*
+         * Create all the walls to seperate board in cells
+         */ 
         private void CreateWalls()
         {
             Walls = new List<Cube>();
@@ -74,6 +77,10 @@ namespace Library
             }
         }
 
+        //K: Within cells interlinked. Within cells interlinked. Within cells interlinked.
+        /*
+         * Create and Define cells by new Coordinate system
+         */
         private void CreateCells()
         {
             cells = new Dictionary<string, Cell>();
@@ -89,6 +96,9 @@ namespace Library
             }
         }
 
+        /*
+         * Generate maze based on recursive backtracking 
+         */
         public void GenerateRecursiveBacktrack()
         {
             Cell currentCell = cells["0,0"];
@@ -134,6 +144,9 @@ namespace Library
             }
         }
 
+        /*
+         * Get random direction if cell has unvisited neigbours.
+         */
         private DirectionType GetRandomDirection(Cell cell)
         {
             DirectionType direction = DirectionType.stay;
@@ -174,6 +187,9 @@ namespace Library
             return direction;
         }
 
+        /*
+         * Return if a cell has unvisited neighbours 
+         */
         private bool HasUnvisitedNeigbour(Cell cell)
         {
             if (cells[cell.X + "," + (cell.Z + 1)].Visited == false
@@ -184,6 +200,9 @@ namespace Library
             return false;
         }
 
+        /*
+         * Remove wall based in cell coordinate and direction mapped to wall coordinate. 
+         */
         private void RemoveWall(Cell cell, DirectionType direction)
         {
             if (direction == DirectionType.up)
