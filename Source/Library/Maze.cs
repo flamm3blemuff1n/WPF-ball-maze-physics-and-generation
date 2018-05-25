@@ -101,41 +101,62 @@ namespace Library
          */
         public void GenerateRecursiveBacktrack()
         {
+            bool findPath = true;
             Cell currentCell = cells["0,0"];
             int CellsToDo = CELLS * CELLS;
             Random Direction = new Random();
-            Queue<Cell> queue = new Queue<Cell>();
+            Stack<Cell> stack = new Stack<Cell>();
 
             while (CellsToDo > 0)
             {
                 currentCell.Visited = true;
 
+                if (currentCell.X == CELLS - 1 && currentCell.Z == CELLS - 1 && findPath)
+                {
+                    Console.WriteLine("cell has been reached" + currentCell.X);
+                    findPath = false;
+                    foreach (Cell el in stack)
+                    {
+                        Console.WriteLine("path: " + el.X + " " + el.Z);
+                        double z = -50 + ((el.Z + 1) * cellWidth) - cellWidth / 2 + (el.Z * 1);
+                        double x = -50 + ((el.X + 1) * cellWidth) - cellWidth / 2 + (el.X * 1);
+                        Cube wall = new Cube(x, -0.1, z, 1, 0.2, 1);
+                        wallContainer.Children.Add(wall.Model);
+                    }
+                }
+
                 switch (GetRandomDirection(currentCell))
                 {
                     case DirectionType.stay:
-                        if (queue.Count > 0) currentCell = queue.Dequeue();
-                        else CellsToDo -= 1;
+                        if (stack.Count > 0)
+                        {
+                            currentCell = stack.Pop();
+                        }
+                        else
+                        {
+                            CellsToDo -= 1;
+                        }
                         break;
                     case DirectionType.up: //go up, remove wall from current
-                        queue.Enqueue(currentCell);
+                        stack.Push(currentCell);
                         RemoveWall(currentCell, DirectionType.up);
                         currentCell = cells[currentCell.X + "," + (currentCell.Z + 1)];
                         CellsToDo -= 1;
                         break;
                     case DirectionType.down: //go down, remove wall from next
-                        queue.Enqueue(currentCell);
+                        stack.Push(currentCell);
                         currentCell = cells[currentCell.X + "," + (currentCell.Z - 1)];
                         RemoveWall(currentCell, DirectionType.up);
                         CellsToDo -= 1;
                         break;
                     case DirectionType.left: //go left, remove wall from current
-                        queue.Enqueue(currentCell);
+                        stack.Push(currentCell);
                         RemoveWall(currentCell, DirectionType.left);
                         currentCell = cells[(currentCell.X + 1) + "," + currentCell.Z];
                         CellsToDo -= 1;
                         break;
                     case DirectionType.right: //go right, remove wall from next
-                        queue.Enqueue(currentCell);
+                        stack.Push(currentCell);
                         currentCell = cells[(currentCell.X - 1) + "," + currentCell.Z];
                         RemoveWall(currentCell, DirectionType.left);
                         CellsToDo -= 1;
