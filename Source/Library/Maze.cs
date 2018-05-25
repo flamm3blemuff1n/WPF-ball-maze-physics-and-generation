@@ -111,13 +111,13 @@ namespace Library
             {
                 currentCell.Visited = true;
 
+                //path from finish to end
                 if (currentCell.X == CELLS - 1 && currentCell.Z == CELLS - 1 && findPath)
                 {
                     Console.WriteLine("cell has been reached" + currentCell.X);
                     findPath = false;
                     foreach (Cell el in stack)
                     {
-                        Console.WriteLine("path: " + el.X + " " + el.Z);
                         double z = -50 + ((el.Z + 1) * cellWidth) - cellWidth / 2 + (el.Z * 1);
                         double x = -50 + ((el.X + 1) * cellWidth) - cellWidth / 2 + (el.X * 1);
                         Cube wall = new Cube(x, -0.1, z, 1, 0.2, 1);
@@ -128,14 +128,8 @@ namespace Library
                 switch (GetRandomDirection(currentCell))
                 {
                     case DirectionType.stay:
-                        if (stack.Count > 0)
-                        {
-                            currentCell = stack.Pop();
-                        }
-                        else
-                        {
-                            CellsToDo -= 1;
-                        }
+                        if (stack.Count > 0) currentCell = stack.Pop();
+                        else CellsToDo -= 1;
                         break;
                     case DirectionType.up: //go up, remove wall from current
                         stack.Push(currentCell);
