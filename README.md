@@ -1,6 +1,8 @@
 # Ball maze
 This project consists of a 3D maze designed with the WPF-framework (Windows Presentation Foundation) for a school project in my second year of ICT.
 
+![Maze](https://raw.githubusercontent.com/flamm3blemuff1n/WPF-ball-maze-physics-and-generation/master/Documentation/maze.png)
+
 The application is split into three parts.
 
 ## Part 1 (Opdracht1)
